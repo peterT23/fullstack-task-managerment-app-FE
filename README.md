@@ -1,46 +1,59 @@
-# Getting Started with Create React App and Redux
+## Requirements
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+### Authentication
 
-## Available Scripts
+- [ ] Users have to log in with email and password
+- [ ] New managers can register for a new account with ame, email, and password
+- [ ] Users can stay logged in even after refreshing the page.
 
-In the project directory, you can run:
+### User Profile.
 
-### `npm start`
+- [ ] Users can update their profile information, including name, avatar, skills, strengths, languages spoken, social links (Zalo, Facebook, inkedIn), phone number, and a short description..
+- [ ] Users can change their passwords.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Task and Project Management
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [ ] Managers can create new tasks and projects.
+- [ ] Managers can update existing tasks and projects.
+- [ ] Managers can assign tasks and projects to team members.
+- [ ] Team members can view all tasks, projects, and comments but cannot edit them.
+- [ ] Managers can delete tasks and projects.
+- [ ] Managers can lock or unlock team member accounts.
+- [ ] Managers can manage the actions team members can perform within the application.
 
-### `npm test`
+### Comments
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [ ] Users can add comments to tasks and projects.
+- [ ] Users can attach reference documents to comments.
 
-### `npm run build`
+### Notifications
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [ ] Users receive notifications for task assignments and updates.
+- [ ] Users receive notifications for project assignments and updates.
+- [ ] Users receive notifications for new comments on tasks and projects.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Additional Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [ ] Users can search for tasks and projects by title or description.
+- [ ] Users can filter tasks and projects by status, priority, and assignees.
+- [ ] The app should provide real-time updates for tasks and projects.
 
-### `npm run eject`
+### create Project
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+npx create-react-app codercom --template redux
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- install libraries
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material @mui/lab
+npm install react-router-dom@6 react-hook-form @hookform/resolvers yup
+npm install axios numeral lodash jwt-decode change-case
+npm install react-markdown rehype-raw date-fns react-dropzone react-toastify
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- clear src recreate src folder
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- create env file outside of src folder
