@@ -12,6 +12,7 @@ import UsersPage from "../features/Users/UsersPage";
 import ProjectsPage from "../features/Projects/ProjectsPage";
 import TasksPage from "../features/Tasks/TasksPage";
 import ProfileSettingPage from "../pages/ProfileSettingPage";
+import ProjectDetailPage from "../features/Projects/ProjectDetailPage";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function Router() {
         <Route index element={<DashBoard />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="projects" element={<ProjectsPage />} />
+        <Route path="projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="Tasks" element={<TasksPage />} />
         <Route path="me/profile" element={<ProfileSettingPage />} />
       </Route>

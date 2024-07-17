@@ -2,24 +2,76 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  ButtonGroup,
   Link,
   Stack,
   TablePagination,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import React, { useState } from "react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import LoadingScreen from "../../components/LoadingScreen";
 import useAuth from "../../hooks/useAuth";
 import AddIcon from "@mui/icons-material/Add";
+import NewProjectCreateModal from "./NewProjectCreateModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjects } from "./projectSlice";
+import ProjectDisplayCard from "./ProjectDisplayCard";
 
 function ProjectsPage() {
   const { user } = useAuth();
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+
+  const filterName = searchParams.get("filterName") || "";
+  const [filterStatus, setFilterStatus] = useState("");
+  const [selectedButton, setSelectedButton] = useState("Pending");
+
+  const handleButtonClick = (buttonName) => {
+    setSelectedButton(buttonName);
+
+    if (buttonName === "all") {
+      setFilterStatus("");
+    }
+    buttonName = buttonName.toLowerCase();
+    setFilterStatus(buttonName);
+  };
+
+  const [page, setPage] = useState(0);
+  const [limitPerPage, setLimitPerPage] = useState(10);
+
+  useEffect(() => {
+    dispatch(
+      getProjects({
+        page: page + 1,
+        limit: limitPerPage,
+        filterName,
+        filterStatus,
+      })
+    );
+  }, [filterName, limitPerPage, page, filterStatus, dispatch]);
+
+  const { currentPageProjects, projectsById, totalProjects, status } =
+    useSelector((state) => state.projects);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setLimitPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  const projects = currentPageProjects.map(
+    (projectId) => projectsById[projectId]
+  );
   const [openCreateNewProjectModal, setOpenCreateNewProjectModal] =
     useState(false);
   const handleOpenCreateNewProjectModal = () => {
     setOpenCreateNewProjectModal(true);
+  };
+  const handleCloseCreateNewProjectModal = () => {
+    setOpenCreateNewProjectModal(false);
   };
   return (
     <Box display="flex" flexDirection="column">
@@ -53,6 +105,72 @@ function ProjectsPage() {
           ""
         )}
       </Stack>
+      <Typography variant="subtitle" sx={{ color: "text.secondary", ml: 1 }}>
+        {totalProjects > 1
+          ? `${totalProjects} projects found`
+          : totalProjects === 1
+          ? `${totalProjects} project found`
+          : "No project found"}
+      </Typography>
+
+      <TablePagination
+        sx={{
+          "& .MuiTablePagination-selectLabel, .MuiTablePagination-select, .MuiTablePagination-selectIcon":
+            {
+              display: { xs: "none", md: "block" },
+            },
+        }}
+        component="div"
+        count={totalProjects ? totalProjects : 0}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={limitPerPage}
+        rowsPerPageOptions={[5, 10, 25]}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <ButtonGroup
+        aria-label="Basic button group"
+        sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {["All", "Pending", "Ongoing", "Review", "Done", "Archive"].map(
+          (buttonName) => (
+            <Button
+              key={buttonName}
+              variant={selectedButton === buttonName ? "contained" : "outlined"}
+              onClick={() => handleButtonClick(buttonName)}
+            >
+              {buttonName}
+            </Button>
+          )
+        )}
+      </ButtonGroup>
+
+      {status === "loading" ? (
+        <LoadingScreen />
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+
+            "& > :not(style)": {
+              m: 1,
+              width: 230,
+              height: 300,
+            },
+          }}
+        >
+          {projects.map((project) => (
+            <ProjectDisplayCard project={project} key={project._id} />
+          ))}
+        </Box>
+      )}
+      <NewProjectCreateModal
+        open={openCreateNewProjectModal}
+        handleClose={handleCloseCreateNewProjectModal}
+      />
     </Box>
   );
 }

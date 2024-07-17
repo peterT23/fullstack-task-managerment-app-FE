@@ -40,7 +40,6 @@ function SingleUserDisplay({ user }) {
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          "&:hover": { cursor: "pointer" },
         }}
         elevation={3}
       >
@@ -58,7 +57,7 @@ function SingleUserDisplay({ user }) {
           />
 
           <Tooltip
-            title="Delete Users"
+            title="Delete User"
             onClick={handleOpenDeleteModal}
             sx={{
               color: "text.secondary",

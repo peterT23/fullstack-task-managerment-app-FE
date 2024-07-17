@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+
 const initialState = {
   status: "idle",
   error: null,
@@ -21,10 +21,10 @@ export const getUsers = createAsyncThunk(
           name: filterName,
         },
       });
-      console.log("res", res);
+
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -36,7 +36,7 @@ export const getSingleUser = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );

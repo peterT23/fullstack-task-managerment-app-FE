@@ -79,6 +79,8 @@ function NewMemberCreateModal({
   const onSubmit = async (data) => {
     const { email, name, role, password } = data;
     try {
+      handleCloseCreateNewMemberModal();
+      reset();
       await dispatch(
         createMemberAccount({ name, email, role, password })
       ).unwrap();
