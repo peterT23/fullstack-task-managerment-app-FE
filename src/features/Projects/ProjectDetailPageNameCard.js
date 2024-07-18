@@ -15,6 +15,8 @@ import { fDate } from "../../utils/formatTime";
 import { capitalCase } from "change-case";
 import useAuth from "../../hooks/useAuth";
 import ProjectEditModal from "./ProjectEditModal";
+import { useSelector } from "react-redux";
+import ProjectDeleteModal from "./ProjectDeleteModal";
 
 const getStatusStyles = (status) => {
   switch (status) {
@@ -50,29 +52,40 @@ const getStatusStyles = (status) => {
       };
   }
 };
-function ProjectDetailPageNameCard({ currentProject }) {
+function ProjectDetailPageNameCard() {
   const theme = useTheme();
   const { user: currentUser } = useAuth();
   const [openProjectEditModal, setOpenProjectEditModal] = useState(false);
+  const [openProjectDeleteModal, setOpenProjectDeleteModal] = useState(false);
+  const { selectedProject: currentProject } = useSelector(
+    (state) => state.projects
+  );
 
   // Kiểm tra xem currentProject có giá trị không
   if (!currentProject) {
     return null; // Hoặc bạn có thể hiển thị một thông báo lỗi hoặc loading state nào đó
   }
-  const startDate = currentProject?.startDate
+  const startDate = currentProject.startDate
     ? fDate(currentProject.startDate)
     : "N/A";
-  const dueDate = currentProject?.dueDate
+  const dueDate = currentProject.dueDate
     ? fDate(currentProject.dueDate)
     : "N/A";
 
-  const members = currentProject?.assignees?.length || 0;
+  const members = currentProject.assignees.length || 0;
 
   const handleOpenEditModal = () => {
     setOpenProjectEditModal(true);
   };
   const handleCloseEditModal = () => {
     setOpenProjectEditModal(false);
+  };
+
+  const handleOpenProjectDeleteModal = () => {
+    setOpenProjectDeleteModal(true);
+  };
+  const handleCloseProjectDeleteModal = () => {
+    setOpenProjectDeleteModal(false);
   };
   return (
     <Paper
@@ -92,7 +105,7 @@ function ProjectDetailPageNameCard({ currentProject }) {
           alignItems="center"
           sx={{ width: { xs: 260, sm: "100%" } }}
         >
-          <Typography variant="h5">{currentProject?.title}</Typography>
+          <Typography variant="h5">{currentProject.title}</Typography>
 
           <Stack direction="row" justifyContent="space-between">
             <Stack
@@ -138,13 +151,13 @@ function ProjectDetailPageNameCard({ currentProject }) {
             }}
           >
             <Chip
-              label={capitalCase(currentProject?.status)}
+              label={capitalCase(currentProject.status)}
               sx={{
                 fontWeight: "bold",
 
                 fontSize: "10px",
 
-                ...getStatusStyles(currentProject?.status),
+                ...getStatusStyles(currentProject.status),
               }}
             />
           </Stack>
@@ -181,6 +194,7 @@ function ProjectDetailPageNameCard({ currentProject }) {
               >
                 <Tooltip title="Delete project">
                   <Button
+                    onClick={handleOpenProjectDeleteModal}
                     sx={{
                       width: "30px",
                       height: "40px",
@@ -209,6 +223,10 @@ function ProjectDetailPageNameCard({ currentProject }) {
         currentProject={currentProject}
         handleCloseEditModal={handleCloseEditModal}
         openProjectEditModal={openProjectEditModal}
+      />
+      <ProjectDeleteModal
+        openProjectDeleteModal={openProjectDeleteModal}
+        handleClose={handleCloseProjectDeleteModal}
       />
     </Paper>
   );

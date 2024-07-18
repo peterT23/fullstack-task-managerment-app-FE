@@ -1,4 +1,12 @@
-import { Alert, Box, Container, Modal, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import {
   FFillAndSelect,
@@ -137,6 +145,7 @@ function NewProjectCreateModal({ open, handleClose }) {
               >
                 Create Project
               </LoadingButton>
+              <Button onClick={handleClose}>Cancel</Button>
             </Stack>
           </FormProvider>
         </Box>

@@ -10,6 +10,40 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  const nameParts = name.split(" ");
+  const initials =
+    nameParts.length > 1
+      ? `${nameParts[0][0]}${nameParts[1][0]}`
+      : `${nameParts[0][0]}`;
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: initials,
+  };
+}
+
 function SingleUserDisplay({ user }) {
   const [openSingleDetailUserModal, setOpenSingleDetailModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -72,16 +106,12 @@ function SingleUserDisplay({ user }) {
             </IconButton>
           </Tooltip>
         </Stack>
+
         <Avatar
-          src={user.avatarUrl}
-          alt={user.name}
-          sx={{
-            mx: "auto",
-            borderWidth: 2,
-            borderStyle: "solid",
-            borderColor: "common.white",
-          }}
+          {...stringAvatar(user.name ? capitalCase(user.name) : "Unknown")}
+          src={user.avartarUrl}
         />
+
         <Typography variant="h5" fontWeight="bold">
           {capitalCase(user.name)}
         </Typography>

@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const getProjects = createAsyncThunk(
-  "projecs/getProjects",
+  "projects/getProjects",
   async ({ page = 1, limit = 10, filterName, filterStatus }, thunkAPI) => {
     try {
       const res = await apiService.get("/projects", {
@@ -31,7 +31,7 @@ export const getProjects = createAsyncThunk(
   }
 );
 export const createProject = createAsyncThunk(
-  "projecs/createProject",
+  "projects/createProject",
   async ({ title, description, dueDate, assignees }, thunkAPI) => {
     try {
       const res = await apiService.post("/projects", {
@@ -52,6 +52,66 @@ export const getSingleProject = createAsyncThunk(
   async ({ projectId }, thunkAPI) => {
     try {
       const res = await apiService.get(`/projects/${projectId}`);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const editProject = createAsyncThunk(
+  "projects/editProject",
+  async (
+    { projectId, title, description, status, dueDate, startDate, budget },
+    thunkAPI
+  ) => {
+    try {
+      const res = await apiService.put(`/projects/${projectId}`, {
+        title,
+        description,
+        status,
+        dueDate,
+        startDate,
+        budget,
+      });
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const assignProjectToMembers = createAsyncThunk(
+  "projects/assignProjectToMembers",
+  async ({ assignees, projectId }, thunkAPI) => {
+    try {
+      const res = await apiService.put(`/projects/${projectId}/assignees`, {
+        assignees,
+      });
+
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const deleteSingleProject = createAsyncThunk(
+  "projects/deleteSingleProject",
+  async ({ projectId }, thunkAPI) => {
+    try {
+      const res = await apiService.delete(`/projects/${projectId}`);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const unassignMemberFromProject = createAsyncThunk(
+  "projects/unassignMemberFromProject",
+  async ({ projectId, assigneeId: assignee }, thunkAPI) => {
+    try {
+      const res = await apiService.put(`/projects/${projectId}/unassign`, {
+        assignee,
+      });
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -97,6 +157,7 @@ export const projectSlice = createSlice({
         state.status = "succeded";
         state.error = "";
         const { project } = action.payload.data;
+
         state.currentPageProjects.pop();
         state.currentPageProjects.unshift(project._id);
         state.projectsById[project._id] = project;
@@ -117,12 +178,79 @@ export const projectSlice = createSlice({
 
         const { project } = action.payload.data;
         state.selectedProject = project;
-        console.log("action.payload.data", action.payload.data);
       })
       .addCase(getSingleProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         console.log("fail");
+      });
+    builder
+      .addCase(editProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editProject.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+        const { project } = action.payload.data;
+        state.selectedProject = project;
+        toast("Edit project successfully");
+      })
+      .addCase(editProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error("Edit project fail");
+      });
+    builder
+      .addCase(assignProjectToMembers.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(assignProjectToMembers.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+        const { project } = action.payload.data;
+        // state.currentPageProjects.pop();
+        // state.currentPageProjects.unshift(project._id);
+        // state.projectsById[project._id] = project;
+
+        state.selectedProject = project;
+        toast("Assign project successfully");
+      })
+      .addCase(assignProjectToMembers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
+      });
+    builder
+      .addCase(deleteSingleProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteSingleProject.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+
+        toast("Delete project successfully");
+      })
+      .addCase(deleteSingleProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
+      });
+    builder
+      .addCase(unassignMemberFromProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(unassignMemberFromProject.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+        const { project } = action.payload.data;
+        state.selectedProject = project;
+
+        toast("Unassign member from project successfully");
+      })
+      .addCase(unassignMemberFromProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
       });
   },
 });

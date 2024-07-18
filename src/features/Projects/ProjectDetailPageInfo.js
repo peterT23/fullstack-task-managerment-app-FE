@@ -3,9 +3,13 @@ import React from "react";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
-function ProjectDetailPageInfo({ currentProject }) {
-  const startDate = new Date(currentProject.startDate);
-  const dueDate = new Date(currentProject.dueDate);
+import { useSelector } from "react-redux";
+function ProjectDetailPageInfo() {
+  const { selectedProject: currentProject } = useSelector(
+    (state) => state.projects
+  );
+  const startDate = new Date(currentProject?.startDate);
+  const dueDate = new Date(currentProject?.dueDate);
 
   // Calculate the difference in time
   const timeDifference = dueDate - startDate;
@@ -30,7 +34,7 @@ function ProjectDetailPageInfo({ currentProject }) {
           sx={{ width: "50px", height: "50px", color: "green" }}
         />
       ),
-      value: `$${currentProject.budget}`,
+      value: `$${currentProject?.budget}`,
     },
     {
       name: "Total Task",
@@ -39,7 +43,7 @@ function ProjectDetailPageInfo({ currentProject }) {
           sx={{ width: "50px", height: "50px", color: "green" }}
         />
       ),
-      value: `${currentProject.taskCount}`,
+      value: `${currentProject?.taskCount}`,
     },
   ];
   return (

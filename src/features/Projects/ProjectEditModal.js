@@ -1,29 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../Users/userSlice";
-import useAuth from "../../hooks/useAuth";
-import { capitalCase } from "change-case";
-import { Alert, Box, Container, Modal, Stack, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
+
 import {
-  FFillAndSelect,
-  FormProvider,
-  FTextField,
-} from "../../components/form";
+  Alert,
+  Box,
+  Button,
+  Container,
+  InputAdornment,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { FormProvider, FSelect, FTextField } from "../../components/form";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import FDatePicker from "../../components/form/FDatePicker";
 import { LoadingButton } from "@mui/lab";
-import { createProject } from "./projectSlice";
-import { fDate, fDateCheck } from "../../utils/formatTime";
+import { editProject } from "./projectSlice";
+import { fDateCheck } from "../../utils/formatTime";
+import RequestQuoteOutlinedIcon from "@mui/icons-material/RequestQuoteOutlined";
+import { capitalCase } from "change-case";
+import { useParams } from "react-router-dom";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: { xs: 240, sm: 300 },
+  width: { xs: 260, sm: 350 },
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -36,10 +42,11 @@ const UpdateProjectSchema = Yup.object().shape({
   description: Yup.string().optional(),
   dueDate: Yup.date().required("Due date is required"),
   startDate: Yup.date(),
-  budget: Yup.number().positive().integer(),
-  status: Yup.string()
-    .default("pending")
-    .oneOf(["pending, ongoing, review, done, archive"]),
+  budget: Yup.number(),
+  status: Yup.string().oneOf(
+    ["pending", "ongoing", "review", "done", "archive"],
+    "Invalid status"
+  ),
 });
 
 function ProjectEditModal({
@@ -57,7 +64,7 @@ function ProjectEditModal({
       ? fDateCheck(currentProject.startDate)
       : null,
     budget: currentProject?.budget || 0,
-    status: currentProject?.status || "",
+    status: currentProject?.status || "pending",
   };
   const methods = useForm({
     resolver: yupResolver(UpdateProjectSchema),
@@ -65,11 +72,7 @@ function ProjectEditModal({
   });
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUsers({ page: 1, limit: 1000 }));
-  }, [dispatch]);
 
-  const { currentPageUsers, usersById } = useSelector((state) => state.users);
   const {
     handleSubmit,
     reset,
@@ -77,29 +80,27 @@ function ProjectEditModal({
     formState: { errors, isSubmitting },
   } = methods;
 
-  const { user: currentUser } = useAuth();
-  //remove the current manager out of users arrays
-  const updatedPageUsers = currentPageUsers.filter(
-    (id) => id !== currentUser._id
-  );
-  const updatedUsersById = { ...usersById };
-  delete updatedUsersById[currentUser._id];
-
-  const options = updatedPageUsers.map((id) => ({
-    value: id,
-    label: `${capitalCase(updatedUsersById[id]?.name)}-${
-      updatedUsersById[id].email
-    }`,
-  }));
-
+  const params = useParams();
+  const { projectId } = params;
   const onSubmit = async (data) => {
-    let { title, description, dueDate, assignees } = data;
+    let { title, description, dueDate, startDate, status, budget } = data;
 
     try {
       dueDate = new Date(dueDate).toISOString();
+      startDate = new Date(startDate).toISOString();
       reset();
       handleCloseEditModal();
-      await dispatch(createProject({ title, description, dueDate, assignees }));
+      await dispatch(
+        editProject({
+          title,
+          description,
+          dueDate,
+          startDate,
+          status,
+          budget,
+          projectId,
+        })
+      );
     } catch (error) {
       reset();
       setError("responseError", {
@@ -108,6 +109,7 @@ function ProjectEditModal({
       });
     }
   };
+  const statusArr = ["pending", "ongoing", "review", "done", "archive"];
 
   return (
     <Modal open={openProjectEditModal} onClose={handleCloseEditModal}>
@@ -126,23 +128,38 @@ function ProjectEditModal({
                 multiline
                 rows={4}
               />
+              <Stack direction="row" spacing={1}>
+                <FTextField
+                  name="budget"
+                  label="Budget"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <RequestQuoteOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <FSelect name="status" label="Status">
+                  {statusArr.map((status) => (
+                    <option value={status} key={status}>
+                      {capitalCase(status)}
+                    </option>
+                  ))}
+                </FSelect>
+              </Stack>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <FDatePicker name="startDate" label="Start date" />
-                <FDatePicker name="dueDate" label="Due date" />
+                <Stack direction="row" spacing={1}>
+                  <FDatePicker name="startDate" label="Start date" />
+                  <FDatePicker name="dueDate" label="Due date" />
+                </Stack>
               </LocalizationProvider>
-
-              {/* <FFillAndSelect
-                name="assignees"
-                options={options}
-                placeholder="Select member"
-              /> */}
 
               {!!errors.responseError && (
                 <Alert severity="error">{errors.responseError.message}</Alert>
               )}
 
               <LoadingButton
-                fullwidth="true"
                 size="large"
                 type="submit"
                 variant="contained"
@@ -150,6 +167,7 @@ function ProjectEditModal({
               >
                 Edit Project
               </LoadingButton>
+              <Button onClick={handleCloseEditModal}>Cancel</Button>
             </Stack>
           </FormProvider>
         </Box>

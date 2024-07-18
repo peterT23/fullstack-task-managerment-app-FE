@@ -18,19 +18,12 @@ import { getSingleProject } from "./projectSlice";
 import LoadingScreen from "../../components/LoadingScreen";
 
 function ProjectDetailPage() {
+  const dispatch = useDispatch();
   const params = useParams();
   const projectId = params.projectId;
-  console.log(projectId);
-  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getSingleProject({ projectId }));
-  // }, [dispatch, projectId]);
   useEffect(() => {
-    console.log("useEffect running", projectId);
-    if (projectId) {
-      dispatch(getSingleProject({ projectId }));
-    }
+    dispatch(getSingleProject({ projectId }));
   }, [dispatch, projectId]);
 
   const { selectedProject, status } = useSelector((state) => state.projects);
@@ -72,9 +65,9 @@ function ProjectDetailPage() {
               <Button variant="contained">Task Board</Button>
             </Stack>
 
-            <ProjectDetailPageNameCard currentProject={currentProject} />
-            <ProjectDetailPageInfo currentProject={currentProject} />
-            <ProjectDetailPageMemberDisplay currentProject={currentProject} />
+            <ProjectDetailPageNameCard />
+            <ProjectDetailPageInfo />
+            <ProjectDetailPageMemberDisplay />
           </Stack>
         </>
       )}
