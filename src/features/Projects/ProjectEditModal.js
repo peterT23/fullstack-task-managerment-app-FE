@@ -1,25 +1,23 @@
-import { Alert, Box, Container, Modal, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../Users/userSlice";
+import useAuth from "../../hooks/useAuth";
+import { capitalCase } from "change-case";
+import { Alert, Box, Container, Modal, Stack, Typography } from "@mui/material";
 import {
   FFillAndSelect,
   FormProvider,
   FTextField,
 } from "../../components/form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-
-import { useForm } from "react-hook-form";
-
-import { LoadingButton } from "@mui/lab";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../Users/userSlice";
-import { capitalCase } from "change-case";
-import FDatePicker from "../../components/form/FDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import FDatePicker from "../../components/form/FDatePicker";
+import { LoadingButton } from "@mui/lab";
 import { createProject } from "./projectSlice";
-import useAuth from "../../hooks/useAuth";
-
+import { fDate, fDateCheck } from "../../utils/formatTime";
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,41 +30,55 @@ const style = {
   p: 2,
   borderRadius: 2,
 };
-const ProjectSchema = Yup.object().shape({
+
+const UpdateProjectSchema = Yup.object().shape({
   title: Yup.string().required("Name is required"),
   description: Yup.string().optional(),
   dueDate: Yup.date().required("Due date is required"),
-  assignees: Yup.array().of(Yup.string().required("Assignee ID is required")),
+  startDate: Yup.date(),
+  budget: Yup.number().positive().integer(),
+  status: Yup.string()
+    .default("pending")
+    .oneOf(["pending, ongoing, review, done, archive"]),
 });
-const defaultValues = {
-  title: "",
-  description: "",
-  dueDate: null,
-  assignees: [],
-};
-function NewProjectCreateModal({ open, handleClose }) {
+
+function ProjectEditModal({
+  currentProject,
+  handleCloseEditModal,
+  openProjectEditModal,
+}) {
+  const defaultValues = {
+    title: currentProject?.title || "",
+    description: currentProject?.description || "",
+    dueDate: currentProject?.dueDate
+      ? fDateCheck(currentProject.dueDate)
+      : null,
+    startDate: currentProject?.startDate
+      ? fDateCheck(currentProject.startDate)
+      : null,
+    budget: currentProject?.budget || 0,
+    status: currentProject?.status || "",
+  };
   const methods = useForm({
-    resolver: yupResolver(ProjectSchema),
+    resolver: yupResolver(UpdateProjectSchema),
     defaultValues,
   });
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getUsers({ page: 1, limit: 1000 }));
   }, [dispatch]);
 
   const { currentPageUsers, usersById } = useSelector((state) => state.users);
-
   const {
     handleSubmit,
     reset,
     setError,
     formState: { errors, isSubmitting },
   } = methods;
-  const { user: currentUser } = useAuth();
 
-  //remove the current manger
+  const { user: currentUser } = useAuth();
+  //remove the current manager out of users arrays
   const updatedPageUsers = currentPageUsers.filter(
     (id) => id !== currentUser._id
   );
@@ -86,23 +98,23 @@ function NewProjectCreateModal({ open, handleClose }) {
     try {
       dueDate = new Date(dueDate).toISOString();
       reset();
-      handleClose();
+      handleCloseEditModal();
       await dispatch(createProject({ title, description, dueDate, assignees }));
     } catch (error) {
       reset();
       setError("responseError", {
         type: "manual",
-        message: error.message || "Create Project failed",
+        message: error.message || "Edit Project failed",
       });
     }
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={openProjectEditModal} onClose={handleCloseEditModal}>
       <Container maxWidth="sm">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Create New Project
+            Edit project
           </Typography>
 
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -115,14 +127,15 @@ function NewProjectCreateModal({ open, handleClose }) {
                 rows={4}
               />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <FDatePicker name="startDate" label="Start date" />
                 <FDatePicker name="dueDate" label="Due date" />
               </LocalizationProvider>
 
-              <FFillAndSelect
+              {/* <FFillAndSelect
                 name="assignees"
                 options={options}
                 placeholder="Select member"
-              />
+              /> */}
 
               {!!errors.responseError && (
                 <Alert severity="error">{errors.responseError.message}</Alert>
@@ -135,7 +148,7 @@ function NewProjectCreateModal({ open, handleClose }) {
                 variant="contained"
                 loading={isSubmitting}
               >
-                Create Project
+                Edit Project
               </LoadingButton>
             </Stack>
           </FormProvider>
@@ -145,4 +158,4 @@ function NewProjectCreateModal({ open, handleClose }) {
   );
 }
 
-export default NewProjectCreateModal;
+export default ProjectEditModal;

@@ -8,6 +8,7 @@ const initialState = {
   currentPageProjects: [],
   projectsById: {},
   totalPages: 1,
+  selectedProject: null,
 };
 
 export const getProjects = createAsyncThunk(
@@ -39,6 +40,18 @@ export const createProject = createAsyncThunk(
         dueDate,
         assignees,
       });
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getSingleProject = createAsyncThunk(
+  "projects/getSingleProject",
+  async ({ projectId }, thunkAPI) => {
+    try {
+      const res = await apiService.get(`/projects/${projectId}`);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -92,6 +105,24 @@ export const projectSlice = createSlice({
       .addCase(createProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error(action.error.message);
+      });
+    builder
+      .addCase(getSingleProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSingleProject.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+
+        const { project } = action.payload.data;
+        state.selectedProject = project;
+        console.log("action.payload.data", action.payload.data);
+      })
+      .addCase(getSingleProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        console.log("fail");
       });
   },
 });

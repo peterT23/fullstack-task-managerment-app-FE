@@ -87,7 +87,7 @@ function NewMemberCreateModal({
     } catch (error) {
       reset();
       // setError("responseError", error);
-      console.log(error);
+
       setError("responseError", {
         type: "manual",
         message: error.message || "Member Registration failed",
@@ -165,7 +165,7 @@ function NewMemberCreateModal({
               />
 
               <LoadingButton
-                fullWidth
+                fullWidth="true"
                 size="large"
                 type="submit"
                 variant="contained"

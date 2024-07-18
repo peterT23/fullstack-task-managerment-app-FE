@@ -62,6 +62,7 @@ function FFillAndSelect({ name, options, ...other }) {
             value={options.filter((option) =>
               field.value.includes(option.value)
             )}
+            defaultValue={field.defaultValue || "Select"}
           />
           <FormHelperText>{error ? error.message : null}</FormHelperText>
         </FormControl>

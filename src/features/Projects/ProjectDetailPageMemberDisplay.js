@@ -82,6 +82,7 @@ function ProjectDetailPageMemberDisplay({ currentProject }) {
                 alignItems="center"
                 sx={{ flexWrap: { xs: "wrap", sm: "noWrap" } }}
                 spacing={5}
+                key={assignee._id}
               >
                 <Avatar
                   {...stringAvatar(

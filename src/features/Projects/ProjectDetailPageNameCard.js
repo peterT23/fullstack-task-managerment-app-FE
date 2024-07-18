@@ -8,12 +8,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import EditCalendarOutlinedIcon from "@mui/icons-material/EditCalendarOutlined";
 import DeleteSweepOutlinedIcon from "@mui/icons-material/DeleteSweepOutlined";
 import { fDate } from "../../utils/formatTime";
 import { capitalCase } from "change-case";
 import useAuth from "../../hooks/useAuth";
+import ProjectEditModal from "./ProjectEditModal";
 
 const getStatusStyles = (status) => {
   switch (status) {
@@ -51,11 +52,28 @@ const getStatusStyles = (status) => {
 };
 function ProjectDetailPageNameCard({ currentProject }) {
   const theme = useTheme();
-  const startDate = fDate(currentProject.startDate);
-  const dueDate = fDate(currentProject.dueDate);
-
   const { user: currentUser } = useAuth();
-  const members = currentProject.assignees.length;
+  const [openProjectEditModal, setOpenProjectEditModal] = useState(false);
+
+  // Kiểm tra xem currentProject có giá trị không
+  if (!currentProject) {
+    return null; // Hoặc bạn có thể hiển thị một thông báo lỗi hoặc loading state nào đó
+  }
+  const startDate = currentProject?.startDate
+    ? fDate(currentProject.startDate)
+    : "N/A";
+  const dueDate = currentProject?.dueDate
+    ? fDate(currentProject.dueDate)
+    : "N/A";
+
+  const members = currentProject?.assignees?.length || 0;
+
+  const handleOpenEditModal = () => {
+    setOpenProjectEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setOpenProjectEditModal(false);
+  };
   return (
     <Paper
       elevation={10}
@@ -74,7 +92,7 @@ function ProjectDetailPageNameCard({ currentProject }) {
           alignItems="center"
           sx={{ width: { xs: 260, sm: "100%" } }}
         >
-          <Typography variant="h5">{currentProject.title}</Typography>
+          <Typography variant="h5">{currentProject?.title}</Typography>
 
           <Stack direction="row" justifyContent="space-between">
             <Stack
@@ -141,6 +159,7 @@ function ProjectDetailPageNameCard({ currentProject }) {
               >
                 <Tooltip title="Edit project">
                   <Button
+                    onClick={handleOpenEditModal}
                     sx={{
                       width: "30px",
                       height: "40px",
@@ -182,8 +201,15 @@ function ProjectDetailPageNameCard({ currentProject }) {
         <Divider sx={{ color: "white" }}>
           <Typography variant="h6"> Project Description</Typography>
         </Divider>
-        <Typography textAlign="center">{currentProject.description}</Typography>
+        <Typography textAlign="center">
+          {currentProject?.description}
+        </Typography>
       </Stack>
+      <ProjectEditModal
+        currentProject={currentProject}
+        handleCloseEditModal={handleCloseEditModal}
+        openProjectEditModal={openProjectEditModal}
+      />
     </Paper>
   );
 }

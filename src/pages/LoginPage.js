@@ -106,7 +106,7 @@ function LoginPage() {
             </Link>
           </Stack>
           <LoadingButton
-            fullWidth
+            fullWidth="true"
             size="large"
             type="submit"
             variant="contained"
