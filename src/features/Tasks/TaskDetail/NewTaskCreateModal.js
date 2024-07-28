@@ -28,7 +28,7 @@ import {
   FDatePicker,
 } from "../../../components/form";
 
-import { addNewTask, createTask, createTaskAsync } from "../taskSlice";
+import { createTaskAsync } from "../taskSlice";
 import { capitalCase } from "change-case";
 import { useParams } from "react-router-dom";
 import { getSingleProject } from "../../Projects/projectSlice";
@@ -95,22 +95,8 @@ function NewTaskCreateModal({ open, handleClose }) {
     let { title, description, dueDate, startDate, assignees, priority } = data;
     dueDate = new Date(dueDate).toISOString();
     startDate = new Date(startDate).toISOString();
-    // dispatch(
-    //   addNewTask({
-    //     data: {
-    //       title,
-    //       description,
-    //       dueDate,
-    //       startDate,
-    //       assignees,
-    //       priority,
-    //       status,
-    //     },
-    //   })
-    // );
-    try {
-      console.log("check running"); //why it does not run
 
+    try {
       reset();
       handleClose();
 

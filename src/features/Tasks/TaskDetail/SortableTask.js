@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { Card as MuiCard } from "@mui/material";
@@ -18,9 +18,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { fDate } from "../../../utils/formatTime";
 import { stringAvatar } from "../../../utils/nameToLetterAvatar";
 import { capitalCase } from "change-case";
-import LoadingScreen from "../../../components/LoadingScreen";
-import zIndex from "@mui/material/styles/zIndex";
-
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import TaskDeleteModal from "./TaskDeleteModal";
+import useAuth from "../../../hooks/useAuth";
+import TaskViewModal from "./TaskViewModal";
 // import TaskItem from "./TaskItem";
 
 const getStatusStyles = (status) => {
@@ -41,6 +44,8 @@ const getStatusStyles = (status) => {
 };
 function SortableTask({ id, item, dragOverlay }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openTaskDeleteModal, setOpenTaskDeleteModal] = useState(false);
+  const [openTaskViewModal, setOpenTaskViewModal] = useState(false);
 
   const handleOpenTaskMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,12 +66,28 @@ function SortableTask({ id, item, dragOverlay }) {
     transition,
     isDragging,
   } = useSortable({ id, data: { item } });
+
   const dndKitCardStyles = {
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 1 : 0.9, // Chỉnh opacity để không bị mờ khi kéo
     border: isDragging ? "1px solid #2ecc71" : "1px solid transparent",
   };
+
+  const HandleOpenTaskDeleteModal = () => {
+    setOpenTaskDeleteModal(true);
+  };
+  const HandleCloseTaskDeleteModal = () => {
+    setOpenTaskDeleteModal(false);
+  };
+  const handleOpenTaskViewModal = () => {
+    setOpenTaskViewModal(true);
+  };
+  const handleCloseTaskViewModal = () => {
+    setOpenTaskViewModal(false);
+  };
+
+  const { user: currentUser } = useAuth();
 
   const renderMenu = (
     <Menu
@@ -83,13 +104,24 @@ function SortableTask({ id, item, dragOverlay }) {
       open={Boolean(anchorEl)}
       onClose={handleCloseTaskMenu}
     >
-      <MenuItem onClick={handleCloseTaskMenu} sx={{ mx: 1 }}>
-        Profile Setting
+      <MenuItem onClick={handleOpenTaskViewModal} sx={{ mx: 1 }}>
+        <VisibilityOutlinedIcon sx={{ mr: "5px" }} /> View Task
       </MenuItem>
 
-      <MenuItem onClick={handleCloseTaskMenu} sx={{ m: 1 }}>
-        Logout
-      </MenuItem>
+      {currentUser.role === "manager" ? (
+        <MenuItem onClick={handleCloseTaskMenu} sx={{ m: 1 }}>
+          <EditOutlinedIcon sx={{ mr: "5px" }} /> Edit Task
+        </MenuItem>
+      ) : (
+        ""
+      )}
+      {currentUser.role === "manager" ? (
+        <MenuItem onClick={HandleOpenTaskDeleteModal} sx={{ m: 1 }}>
+          <DeleteForeverOutlinedIcon sx={{ mr: "5px" }} /> Delete Task
+        </MenuItem>
+      ) : (
+        ""
+      )}
     </Menu>
   );
 
@@ -108,7 +140,6 @@ function SortableTask({ id, item, dragOverlay }) {
         "&:hover": { borderColor: (theme) => theme.palette.primary.main },
       }}
     >
-      {/* <TaskItem id={id} item={item} /> */}
       <div
         style={{
           width: "100%",
@@ -184,6 +215,16 @@ function SortableTask({ id, item, dragOverlay }) {
         </Box>
         {renderMenu}
       </div>
+      <TaskDeleteModal
+        taskId={id}
+        open={openTaskDeleteModal}
+        handleClose={HandleCloseTaskDeleteModal}
+      />
+      <TaskViewModal
+        task={item}
+        open={openTaskViewModal}
+        handleClose={handleCloseTaskViewModal}
+      />
     </MuiCard>
   );
 }

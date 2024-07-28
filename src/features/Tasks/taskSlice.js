@@ -1,119 +1,3 @@
-// import apiService from "../../app/apiService";
-
-// import { toast } from "react-toastify";
-// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//   status: "idle",
-//   error: null,
-//   tasksByStatus: {},
-// };
-
-// export const getTasksByStatus = createAsyncThunk(
-//   "tasks/getTasksByStatus",
-//   async ({ projectId }, thunkAPI) => {
-//     try {
-//       const res = await apiService.get(`/projects/${projectId}/tasks/status`);
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
-// export const updateTaskStatusAndOrder = createAsyncThunk(
-//   "tasks/updateTaskStatusAndOrder",
-//   async ({ projectId, updatedTasks }, thunkAPI) => {
-//     try {
-//       const res = await apiService.put(`/projects/${projectId}/tasks/reorder`, {
-//         updatedTasks,
-//       });
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
-
-// export const createTask = createAsyncThunk(
-//   "tasks/createTask",
-//   async (
-//     { projectId, title, description, dueDate, startDate, assignees, priority },
-//     thunkAPI
-//   ) => {
-//     try {
-//       const res = await apiService.post("/tasks", {
-//         projectId,
-//         title,
-//         description,
-//         dueDate,
-//         startDate,
-//         assignees,
-//         priority,
-//       });
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
-
-// export const taskSlice = createSlice({
-//   name: "task",
-//   initialState,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(getTasksByStatus.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(getTasksByStatus.fulfilled, (state, action) => {
-//         state.status = "succeded";
-//         state.error = "";
-//         const { tasksByStatus } = action.payload.data;
-//         state.tasksByStatus = tasksByStatus;
-//       })
-//       .addCase(getTasksByStatus.rejected, (state, action) => {
-//         state.status = "failed";
-//         state.error = action.error.message;
-//         toast.error(action.error.message);
-//       });
-//     // builder
-//     //   .addCase(updateTaskStatusAndOrder.pending, (state) => {
-//     //     state.status = "loading";
-//     //   })
-//     //   .addCase(updateTaskStatusAndOrder.fulfilled, (state, action) => {
-//     //     state.status = "succeded";
-//     //     state.error = "";
-//     //     const { tasksByStatus } = action.payload.data;
-
-//     //     // state.tasksByStatus = tasksByStatus;
-//     //   })
-//     //   .addCase(updateTaskStatusAndOrder.rejected, (state, action) => {
-//     //     state.status = "failed";
-//     //     state.error = action.error.message;
-//     //     toast.error(action.error.message);
-//     //   });
-//     builder
-//       .addCase(createTask.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(createTask.fulfilled, (state, action) => {
-//         state.status = "succeded";
-//         state.error = "";
-//         const { task } = action.payload.data;
-
-//         state.tasksByStatus.pending.push(task);
-//       })
-//       .addCase(createTask.rejected, (state, action) => {
-//         state.status = "failed";
-//         state.error = action.error.message;
-//         toast.error(action.error.message);
-//       });
-//   },
-// });
-
-// export default taskSlice.reducer;
-
 import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
@@ -124,6 +8,7 @@ const initialState = {
   tasksByStatus: {},
   activeId: null,
   isDragging: false,
+  selectedTask: null,
 };
 
 export const getTasksByStatus = createAsyncThunk(
@@ -174,6 +59,28 @@ export const createTaskAsync = createAsyncThunk(
     }
   }
 );
+export const deleteAsyncSingleTask = createAsyncThunk(
+  "tasks/deleteAsyncSingleTask",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const res = await apiService.delete(`/tasks/${taskId}`);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getSingleTask = createAsyncThunk(
+  "tasks/getSingleTask",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const res = await apiService.get(`/tasks/${taskId}`);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const taskSlice = createSlice({
   name: "task",
@@ -190,11 +97,19 @@ export const taskSlice = createSlice({
     updateTaskStatusAndOrder: (state, action) => {
       state.tasksByStatus = action.payload;
     },
-    // addNewTask: (state, action) => {
-    //   const { data } = action.payload;
-    //   console.log("data", data);
-    //   state.tasksByStatus.pending.push(data);
-    // },
+    deleteSingleTask: (state, action) => {
+      const { taskId } = action.payload;
+      Object.keys(state.tasksByStatus).forEach((status) => {
+        state.tasksByStatus[status] = state.tasksByStatus[status].filter(
+          (task) => taskId !== task._id
+        );
+        // Cập nhật lại thứ tự các task sau khi xoá
+
+        state.tasksByStatus[status].forEach((task, index) => {
+          task.order = index + 1;
+        });
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -239,8 +154,24 @@ export const taskSlice = createSlice({
         const { task } = action.payload.data;
         console.log("task", task);
         state.tasksByStatus.pending.push(task);
+        toast("Create Task successfully");
       })
       .addCase(createTaskAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
+      });
+    builder
+      .addCase(getSingleTask.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSingleTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.error = "";
+        const { task } = action.payload.data;
+        console.log("task", task);
+      })
+      .addCase(getSingleTask.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         toast.error(action.error.message);
@@ -252,7 +183,7 @@ export const {
   setDraggingState,
   resetDraggingState,
   updateTaskStatusAndOrder,
-  addNewTask,
+  deleteSingleTask,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
