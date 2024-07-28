@@ -8,3 +8,4 @@ export { default as FSwitch } from "./FSwitch";
 export { default as FUploadImage } from "./FUploadImage";
 export { default as FUploadAvatar } from "./FUploadAvatar";
 export { default as FFillAndSelect } from "./FFillAndSelect";
+export { default as FDatePicker } from "./FDatePicker";

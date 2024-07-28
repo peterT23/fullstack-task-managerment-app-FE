@@ -12,17 +12,16 @@ import {
   FFillAndSelect,
   FormProvider,
   FTextField,
+  FDatePicker,
 } from "../../components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { useForm } from "react-hook-form";
-
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../Users/userSlice";
 import { capitalCase } from "change-case";
-import FDatePicker from "../../components/form/FDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { createProject } from "./projectSlice";
@@ -74,7 +73,7 @@ function NewProjectCreateModal({ open, handleClose }) {
   } = methods;
   const { user: currentUser } = useAuth();
 
-  //remove the current manger
+  //remove the current manager
   const updatedPageUsers = currentPageUsers.filter(
     (id) => id !== currentUser._id
   );
@@ -89,6 +88,7 @@ function NewProjectCreateModal({ open, handleClose }) {
   }));
 
   const onSubmit = async (data) => {
+    console.log("check running");
     let { title, description, dueDate, assignees } = data;
 
     try {

@@ -89,7 +89,6 @@ function ProjectEditModal({
       dueDate = new Date(dueDate).toISOString();
       startDate = new Date(startDate).toISOString();
       reset();
-      handleCloseEditModal();
       await dispatch(
         editProject({
           title,

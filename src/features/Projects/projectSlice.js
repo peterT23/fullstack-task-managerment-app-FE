@@ -198,7 +198,7 @@ export const projectSlice = createSlice({
       .addCase(editProject.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        toast.error("Edit project fail");
+        toast.error(action.error.message);
       });
     builder
       .addCase(assignProjectToMembers.pending, (state) => {

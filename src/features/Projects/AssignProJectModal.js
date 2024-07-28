@@ -143,7 +143,7 @@ function AssignProJectModal({ handleClose, open }) {
                   variant="contained"
                   loading={isSubmitting}
                 >
-                  Create Project
+                  Invite Members
                 </LoadingButton>
                 <Button onClick={handleClose}>Cancel</Button>
               </Stack>

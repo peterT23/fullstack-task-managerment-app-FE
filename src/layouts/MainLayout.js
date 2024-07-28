@@ -43,7 +43,6 @@ function MainLayout(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           display: "flex",
           flexDirection: "column",
-
           minHeight: "100vh",
         }}
       >

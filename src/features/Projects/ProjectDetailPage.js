@@ -9,7 +9,7 @@ import {
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 
 import ProjectDetailPageNameCard from "./ProjectDetailPageNameCard";
 import ProjectDetailPageInfo from "./ProjectDetailPageInfo";
@@ -21,14 +21,16 @@ function ProjectDetailPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const projectId = params.projectId;
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getSingleProject({ projectId }));
   }, [dispatch, projectId]);
 
-  const { selectedProject, status } = useSelector((state) => state.projects);
-
-  const currentProject = selectedProject;
+  const { status } = useSelector((state) => state.projects);
+  const handleNavigateTaskBoard = () => {
+    navigate(`/projects/${projectId}/task`);
+  };
 
   return (
     <Box display="flex" flexDirection="column">
@@ -62,7 +64,9 @@ function ProjectDetailPage() {
                 <Typography color="text.primary">Project Detail</Typography>
               </Breadcrumbs>
               <Box flexGrow={1}></Box>
-              <Button variant="contained">Task Board</Button>
+              <Button variant="contained" onClick={handleNavigateTaskBoard}>
+                Task Board
+              </Button>
             </Stack>
 
             <ProjectDetailPageNameCard />
