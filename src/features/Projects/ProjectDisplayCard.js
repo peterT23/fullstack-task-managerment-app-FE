@@ -50,6 +50,7 @@ const getStatusStyles = (status) => {
 
 function ProjectDisplayCard({ project }) {
   const duedate = fDate(project.dueDate);
+  const startdate = fDate(project.startDate);
   const navigate = useNavigate();
   const handleViewProject = () => {
     navigate(`/projects/${project._id}`);
@@ -96,10 +97,15 @@ function ProjectDisplayCard({ project }) {
             justifyContent: "space-between",
           }}
         ></Stack>
+        <Typography variant="body1">Start date: {startdate}</Typography>
         <Typography variant="body1">Due date: {duedate}</Typography>
-        <Typography variant="string" color="text.secondary">
+        {/* <Typography
+          variant="string"
+          color="text.secondary"
+          sx={{ fontSize: "13px" }}
+        >
           {project.description}
-        </Typography>
+        </Typography> */}
 
         <Typography variant="string">Members</Typography>
         <AvatarGroup max={5}>

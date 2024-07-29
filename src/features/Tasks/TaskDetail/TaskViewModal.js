@@ -90,6 +90,7 @@ function TaskViewModal({ task, open, handleClose }) {
               </Typography>
               <Typography variant="body1">{fDate(task?.dueDate)}</Typography>
             </Stack>
+
             <Stack direction="column">
               <Typography variant="h6" color="primary">
                 Assignees

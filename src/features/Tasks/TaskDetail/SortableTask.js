@@ -24,6 +24,10 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import TaskDeleteModal from "./TaskDeleteModal";
 import useAuth from "../../../hooks/useAuth";
 import TaskViewModal from "./TaskViewModal";
+import TaskEditModal from "./TaskEditModal";
+import { useDispatch } from "react-redux";
+import { getSingleTask } from "../taskSlice";
+
 // import TaskItem from "./TaskItem";
 
 const getStatusStyles = (status) => {
@@ -46,6 +50,7 @@ function SortableTask({ id, item, dragOverlay }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openTaskDeleteModal, setOpenTaskDeleteModal] = useState(false);
   const [openTaskViewModal, setOpenTaskViewModal] = useState(false);
+  const [openEditTaskModal, setOpenEditTaskModal] = useState(false);
 
   const handleOpenTaskMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,6 +72,8 @@ function SortableTask({ id, item, dragOverlay }) {
     isDragging,
   } = useSortable({ id, data: { item } });
 
+  const dispatch = useDispatch();
+
   const dndKitCardStyles = {
     transform: CSS.Translate.toString(transform),
     transition,
@@ -76,15 +83,25 @@ function SortableTask({ id, item, dragOverlay }) {
 
   const HandleOpenTaskDeleteModal = () => {
     setOpenTaskDeleteModal(true);
+    setAnchorEl(null);
   };
   const HandleCloseTaskDeleteModal = () => {
     setOpenTaskDeleteModal(false);
   };
   const handleOpenTaskViewModal = () => {
     setOpenTaskViewModal(true);
+    setAnchorEl(null);
   };
   const handleCloseTaskViewModal = () => {
     setOpenTaskViewModal(false);
+  };
+  const handleOpenTaskEditModal = async () => {
+    setOpenEditTaskModal(true);
+    dispatch(getSingleTask({ id }));
+    setAnchorEl(null);
+  };
+  const handleCloseTaskEditModal = () => {
+    setOpenEditTaskModal(false);
   };
 
   const { user: currentUser } = useAuth();
@@ -109,7 +126,7 @@ function SortableTask({ id, item, dragOverlay }) {
       </MenuItem>
 
       {currentUser.role === "manager" ? (
-        <MenuItem onClick={handleCloseTaskMenu} sx={{ m: 1 }}>
+        <MenuItem onClick={() => handleOpenTaskEditModal(id)} sx={{ m: 1 }}>
           <EditOutlinedIcon sx={{ mr: "5px" }} /> Edit Task
         </MenuItem>
       ) : (
@@ -160,7 +177,7 @@ function SortableTask({ id, item, dragOverlay }) {
                 label={item?.priority}
                 sx={{
                   fontWeight: "bold",
-                  width: "50px",
+                  width: "80px",
                   height: "25px",
                   fontSize: "12px",
                   ...getStatusStyles(item?.priority),
@@ -224,6 +241,11 @@ function SortableTask({ id, item, dragOverlay }) {
         task={item}
         open={openTaskViewModal}
         handleClose={handleCloseTaskViewModal}
+      />
+      <TaskEditModal
+        task={item}
+        open={openEditTaskModal}
+        handleClose={handleCloseTaskEditModal}
       />
     </MuiCard>
   );

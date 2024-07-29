@@ -10,7 +10,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import ContainerDroppable from "./ContainerDroppable";
 import {
@@ -27,6 +27,7 @@ import {
   updateAsyncTaskStatusAndOrder,
 } from "../taskSlice";
 import SortableTask from "./SortableTask";
+import { getSingleProject } from "../../Projects/projectSlice";
 
 function TaskContainer() {
   const [activeDragItemData, setActiveDragItemData] = useState(null);
@@ -36,6 +37,10 @@ function TaskContainer() {
   const dispatch = useDispatch();
   const params = useParams();
   const { projectId } = params;
+
+  useEffect(() => {
+    dispatch(getSingleProject({ projectId }));
+  }, [dispatch, projectId]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

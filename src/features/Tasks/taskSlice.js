@@ -70,11 +70,32 @@ export const deleteAsyncSingleTask = createAsyncThunk(
     }
   }
 );
-export const getSingleTask = createAsyncThunk(
+export const getSingleTaskAsync = createAsyncThunk(
   "tasks/getSingleTask",
   async ({ taskId }, thunkAPI) => {
     try {
       const res = await apiService.get(`/tasks/${taskId}`);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const editTaskAsync = createAsyncThunk(
+  "tasks/editTaskAsync",
+  async (
+    { taskId, title, description, dueDate, assignees, priority, startDate },
+    thunkAPI
+  ) => {
+    try {
+      const res = await apiService.put(`/tasks/${taskId}`, {
+        title,
+        description,
+        dueDate,
+        assignees,
+        priority,
+        startDate,
+      });
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -97,6 +118,7 @@ export const taskSlice = createSlice({
     updateTaskStatusAndOrder: (state, action) => {
       state.tasksByStatus = action.payload;
     },
+    getSingleTask: (state, action) => {},
     deleteSingleTask: (state, action) => {
       const { taskId } = action.payload;
       Object.keys(state.tasksByStatus).forEach((status) => {
@@ -162,16 +184,36 @@ export const taskSlice = createSlice({
         toast.error(action.error.message);
       });
     builder
-      .addCase(getSingleTask.pending, (state) => {
+      .addCase(getSingleTaskAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getSingleTask.fulfilled, (state, action) => {
+      .addCase(getSingleTaskAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.error = "";
         const { task } = action.payload.data;
+        state.selectedTask = task;
         console.log("task", task);
       })
-      .addCase(getSingleTask.rejected, (state, action) => {
+      .addCase(getSingleTaskAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
+      });
+    builder
+      .addCase(editTaskAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editTaskAsync.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.error = "";
+        const { task } = action.payload.data;
+        const status = task.status;
+        const index = state.tasksByStatus[status].findIndex(
+          (tas) => tas._id === task._id
+        );
+        state.tasksByStatus[status][index] = task;
+      })
+      .addCase(editTaskAsync.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         toast.error(action.error.message);
@@ -183,6 +225,7 @@ export const {
   setDraggingState,
   resetDraggingState,
   updateTaskStatusAndOrder,
+  getSingleTask,
   deleteSingleTask,
 } = taskSlice.actions;
 
