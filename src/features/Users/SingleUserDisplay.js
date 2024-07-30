@@ -77,7 +77,7 @@ function SingleUserDisplay({ user }) {
 
         <Avatar
           {...stringAvatar(user.name ? capitalCase(user.name) : "Unknown")}
-          src={user.avartarUrl}
+          src={user.avatarUrl}
         />
 
         <Typography variant="h5" fontWeight="bold">

@@ -104,7 +104,7 @@ function ProjectDetailPageMemberDisplay() {
                       {...stringAvatar(
                         assignee.name ? capitalCase(assignee.name) : "Unknown"
                       )}
-                      src={assignee.avartarUrl}
+                      src={assignee.avatarUrl}
                     />
                     <Stack
                       direction="column"

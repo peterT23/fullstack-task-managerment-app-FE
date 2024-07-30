@@ -2,7 +2,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { FormHelperText } from "@mui/material";
 import UploadSingleFile from "../UploadSingleFile";
 
-function FUploadImage({ name, ...other }) {
+function FUploadFile({ name, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -14,7 +14,8 @@ function FUploadImage({ name, ...other }) {
 
         return (
           <UploadSingleFile
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.csv,.docx,.xls,.xlsx,.txt,.zip"
+            // accept="image/*"
             file={field.value}
             error={checkError}
             helperText={
@@ -32,4 +33,4 @@ function FUploadImage({ name, ...other }) {
   );
 }
 
-export default FUploadImage;
+export default FUploadFile;

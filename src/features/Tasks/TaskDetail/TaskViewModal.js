@@ -107,7 +107,7 @@ function TaskViewModal({ task, open, handleClose }) {
                       {...stringAvatar(
                         assignee.name ? capitalCase(assignee?.name) : "Unknown"
                       )}
-                      src={assignee.avartarUrl}
+                      src={assignee.avatarUrl}
                     />
                   </Tooltip>
                 ))}

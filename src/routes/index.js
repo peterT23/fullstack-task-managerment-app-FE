@@ -11,9 +11,9 @@ import AuthRequire from "./AuthRequire";
 import UsersPage from "../features/Users/UsersPage";
 import ProjectsPage from "../features/Projects/ProjectsPage";
 
-import ProfileSettingPage from "../pages/ProfileSettingPage";
 import ProjectDetailPage from "../features/Projects/ProjectDetailPage";
 import TaskDetailPage from "../features/Tasks/TaskDetail/TaskDetailPage";
+import ProfileSettingPage from "../features/Me Setting/ProfileSettingPage";
 
 function Router() {
   return (

@@ -57,7 +57,7 @@ const MainHeader = ({ handleDrawerToggle }) => {
     >
       <Box sx={{ my: 1.5, px: 2 }}>
         <Typography variant="subtitle2" fontWeight="bold" noWrap>
-          {user?.name.toUpperCase()}
+          {user?.name}
         </Typography>
         <Typography variant="subtitle2" noWrap>
           {user?.email}
@@ -111,7 +111,7 @@ const MainHeader = ({ handleDrawerToggle }) => {
                   opacity: 0.8,
                 },
               }}
-              src={user.avartarUrl}
+              src={user.avatarUrl}
               alt={user.name}
               onClick={handleProfileMenuOpen}
             />

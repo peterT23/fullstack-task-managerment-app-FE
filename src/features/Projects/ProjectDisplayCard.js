@@ -120,7 +120,7 @@ function ProjectDisplayCard({ project }) {
                 {...stringAvatar(
                   assignee.name ? capitalCase(assignee.name) : "Unknown"
                 )}
-                src={assignee.avartarUrl}
+                src={assignee.avatarUrl}
               />
             </Tooltip>
           ))}

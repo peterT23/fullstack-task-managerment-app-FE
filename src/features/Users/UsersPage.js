@@ -125,8 +125,8 @@ function UsersPage() {
 
             "& > :not(style)": {
               m: 1,
-              width: 200,
-              height: 250,
+              width: 240,
+              height: 300,
             },
           }}
         >

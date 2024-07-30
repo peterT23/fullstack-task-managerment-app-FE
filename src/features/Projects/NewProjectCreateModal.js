@@ -137,7 +137,6 @@ function NewProjectCreateModal({ open, handleClose }) {
               )}
 
               <LoadingButton
-                fullwidth="true"
                 size="large"
                 type="submit"
                 variant="contained"

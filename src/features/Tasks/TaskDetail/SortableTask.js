@@ -222,7 +222,7 @@ function SortableTask({ id, item, dragOverlay }) {
                       {...stringAvatar(
                         assignee.name ? capitalCase(assignee?.name) : "Unknown"
                       )}
-                      src={assignee.avartarUrl}
+                      src={assignee.avatarUrl}
                     />
                   </Tooltip>
                 ))}

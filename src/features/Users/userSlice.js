@@ -118,7 +118,7 @@ export const userSlice = createSlice({
       .addCase(deleteSingleUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        // toast.error(action.error.message);
+        toast.error(action.error.message);
       });
     builder
       .addCase(createMemberAccount.pending, (state) => {
@@ -128,7 +128,7 @@ export const userSlice = createSlice({
         state.status = "succeded";
         state.error = "";
         const { user } = action.payload.data;
-        state.currentPageUsers.pop();
+        // state.currentPageUsers.pop();
         state.currentPageUsers.unshift(user._id);
         state.usersById[user._id] = user;
 

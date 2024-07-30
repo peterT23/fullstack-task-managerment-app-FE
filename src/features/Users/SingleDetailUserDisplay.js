@@ -14,6 +14,7 @@ import InterpreterModeOutlinedIcon from "@mui/icons-material/InterpreterModeOutl
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 
 import React from "react";
 const style = {
@@ -100,6 +101,17 @@ function SingleDetailUserDisplay({ open, handleClose, user }) {
             <Typography sx={{ margin: "5px" }}>{user.phone}</Typography>
           </Stack>
 
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <WorkOutlineOutlinedIcon sx={{ mr: "10px" }} />
+            <Typography sx={{ margin: "5px" }}>{user.jobTitle}</Typography>
+          </Stack>
           <Stack
             sx={{
               display: "flex",
@@ -211,7 +223,7 @@ function SingleDetailUserDisplay({ open, handleClose, user }) {
                 },
               }}
             >
-              {user.linkedinLin ? "Go to LinkedIn" : ""}
+              {user.linkedinLink ? "Go to LinkedIn" : ""}
             </Link>
           </Stack>
           <Stack
@@ -241,7 +253,6 @@ function SingleDetailUserDisplay({ open, handleClose, user }) {
               {user.twitterLink ? "Go to TwitterLink" : ""}
             </Link>
           </Stack>
-          {/* <ChildModal /> */}
         </Box>
       </Modal>
     </>

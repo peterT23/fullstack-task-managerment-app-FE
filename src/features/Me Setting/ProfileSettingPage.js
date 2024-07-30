@@ -4,8 +4,8 @@ import { Container, Tab, Box, Tabs, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ShareIcon from "@mui/icons-material/Share";
 import { capitalCase } from "change-case";
-import AccountGeneral from "../features/Users/AccountGeneral";
-import AccountSocialLinks from "../features/Users/AccountSocialLinks";
+import AccountGeneral from "./AccountGeneral";
+import AccountSocialLinks from "./AccountSocialLinks";
 
 function ProfileSettingPage() {
   const [currentTab, setCurrentTab] = useState("general");
@@ -25,7 +25,7 @@ function ProfileSettingPage() {
   return (
     <Container>
       <Typography variant="h5" gutterBottom>
-        Profile Settings
+        Account Settings
       </Typography>
       <Tabs
         value={currentTab}

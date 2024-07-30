@@ -1,6 +1,7 @@
 import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { cloudinaryFileUpload } from "../../utils/cloudinaryFile";
 
 const initialState = {
   status: "idle",
@@ -28,11 +29,18 @@ export const getCommentsOfTask = createAsyncThunk(
 
 export const createNewComment = createAsyncThunk(
   "comments/createNewComment",
-  async ({ taskId, comment }, thunkAPI) => {
+  async ({ taskId, comment, referenceDocument, documentType }, thunkAPI) => {
     try {
+      //upload referenceDocument to cloudinary
+      const referenceDocumentUrl = await cloudinaryFileUpload(
+        referenceDocument
+      );
+
       const res = await apiService.post("/comments", {
         taskId,
         content: comment,
+        referenceDocument: referenceDocumentUrl,
+        documentType,
       });
       return res.data;
     } catch (error) {
