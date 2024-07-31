@@ -112,6 +112,7 @@ function TaskEditModal({ task, open, handleClose }) {
   };
 
   const priorityArr = ["low", "medium", "high"];
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Container maxWidth="sm">

@@ -8,6 +8,9 @@ const initialState = {
   tasksByStatus: {},
   activeId: null,
   isDragging: false,
+  currentPageTasks: [],
+  tasksById: {},
+  totalPages: 1,
   selectedTask: null,
 };
 
@@ -55,6 +58,8 @@ export const createTaskAsync = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
+      toast.error(error.message);
+
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -66,6 +71,7 @@ export const deleteAsyncSingleTask = createAsyncThunk(
       const res = await apiService.delete(`/tasks/${taskId}`);
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -77,6 +83,7 @@ export const getSingleTaskAsync = createAsyncThunk(
       const res = await apiService.get(`/tasks/${taskId}`);
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -98,6 +105,25 @@ export const editTaskAsync = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getTasksAsync = createAsyncThunk(
+  "tasks/getTasksAsync",
+  async ({ page = 1, limit = 10, filterName }, thunkAPI) => {
+    try {
+      const res = await apiService.get(`/tasks`, {
+        params: {
+          page,
+          limit,
+          title: filterName,
+        },
+      });
+      return res.data;
+    } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -131,9 +157,40 @@ export const taskSlice = createSlice({
           task.order = index + 1;
         });
       });
+
+      state.currentPageTasks = state.currentPageTasks.filter(
+        (id) => taskId !== id
+      );
+
+      delete state.tasksById[taskId];
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(getTasksAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getTasksAsync.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.error = "";
+
+        const { tasks, count, totalPages } = action.payload.data;
+
+        tasks.forEach((task) => {
+          state.tasksById[task._id] = task;
+
+          if (!state.currentPageTasks.includes(task._id))
+            state.currentPageTasks.push(task._id);
+        });
+        state.currentPageTasks = tasks.map((task) => task._id);
+        state.totalTasks = count;
+        state.totalPages = totalPages;
+      })
+      .addCase(getTasksAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        toast.error(action.error.message);
+      });
     builder
       .addCase(getTasksByStatus.pending, (state) => {
         state.status = "loading";

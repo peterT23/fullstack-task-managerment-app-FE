@@ -118,9 +118,7 @@ export const commentSlice = createSlice({
         state.currentPageComments = state.currentPageComments.filter(
           (commentId) => commentId !== comment._id
         );
-
         delete state.commentsById[comment._id];
-
         toast("Delete comment successfully");
       })
       .addCase(deleteSingleComment.rejected, (state, action) => {

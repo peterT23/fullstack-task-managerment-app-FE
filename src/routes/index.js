@@ -14,6 +14,7 @@ import ProjectsPage from "../features/Projects/ProjectsPage";
 import ProjectDetailPage from "../features/Projects/ProjectDetailPage";
 import TaskDetailPage from "../features/Tasks/TaskDetail/TaskDetailPage";
 import ProfileSettingPage from "../features/Me Setting/ProfileSettingPage";
+import TasksPage from "../features/Tasks/TasksPage";
 
 function Router() {
   return (
@@ -31,6 +32,7 @@ function Router() {
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="projects/:projectId/task" element={<TaskDetailPage />} />
+        <Route path="tasks" element={<TasksPage />} />
         <Route path="me/profile" element={<ProfileSettingPage />} />
       </Route>
       {/* /// */}

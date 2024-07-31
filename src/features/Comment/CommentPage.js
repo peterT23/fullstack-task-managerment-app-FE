@@ -33,6 +33,7 @@ const CommentSchema = Yup.object().shape({
 });
 const defaultValues = {
   comment: "",
+  documentType: "",
 };
 function CommentPage({ taskId }) {
   const dispatch = useDispatch();
@@ -65,12 +66,13 @@ function CommentPage({ taskId }) {
 
   const onSubmit = async (data) => {
     let { comment, referenceDocument, documentType } = data;
+
     try {
-      reset();
       await dispatch(
         createNewComment({ comment, taskId, referenceDocument, documentType })
       );
       fileInput.current.value = "";
+      reset();
     } catch (error) {
       reset();
       setError("responseError", {
@@ -83,6 +85,10 @@ function CommentPage({ taskId }) {
   ////
   const handleFile = (e) => {
     const file = fileInput.current.files[0];
+    if (!file) {
+      setValue("referenceDocument", "");
+      setValue("documentType", "");
+    }
     const documentType = file?.type.startsWith("image/") ? "image" : "raw";
 
     if (file) {
@@ -114,6 +120,7 @@ function CommentPage({ taskId }) {
             <Stack
               direction="row"
               justifyContent="space-between"
+              alignItems="center"
               key={comment._id}
             >
               <Stack
@@ -202,7 +209,12 @@ function CommentPage({ taskId }) {
             rows={3}
           />
 
-          <input type="file" ref={fileInput} onChange={handleFile} />
+          <input
+            type="file"
+            name="documentType"
+            ref={fileInput}
+            onChange={handleFile}
+          />
 
           {!!errors.responseError && (
             <Alert severity="error">{errors.responseError.message}</Alert>

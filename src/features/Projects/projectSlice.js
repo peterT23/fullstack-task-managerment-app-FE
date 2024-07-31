@@ -26,6 +26,7 @@ export const getProjects = createAsyncThunk(
 
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -42,6 +43,7 @@ export const createProject = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -54,6 +56,7 @@ export const getSingleProject = createAsyncThunk(
       const res = await apiService.get(`/projects/${projectId}`);
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -75,6 +78,7 @@ export const editProject = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -90,6 +94,7 @@ export const assignProjectToMembers = createAsyncThunk(
 
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -101,6 +106,7 @@ export const deleteSingleProject = createAsyncThunk(
       const res = await apiService.delete(`/projects/${projectId}`);
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -114,6 +120,7 @@ export const unassignMemberFromProject = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -158,7 +165,7 @@ export const projectSlice = createSlice({
         state.error = "";
         const { project } = action.payload.data;
 
-        state.currentPageProjects.pop();
+        // state.currentPageProjects.pop();
         state.currentPageProjects.unshift(project._id);
         state.projectsById[project._id] = project;
         toast("Create project successfully");

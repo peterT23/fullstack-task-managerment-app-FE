@@ -27,6 +27,8 @@ function ProjectsPage() {
   const filterName = searchParams.get("filterName") || "";
   const [filterStatus, setFilterStatus] = useState("");
   const [selectedButton, setSelectedButton] = useState("Pending");
+  const [page, setPage] = useState(0);
+  const [limitPerPage, setLimitPerPage] = useState(10);
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
@@ -37,9 +39,6 @@ function ProjectsPage() {
     buttonName = buttonName.toLowerCase();
     setFilterStatus(buttonName);
   };
-
-  const [page, setPage] = useState(0);
-  const [limitPerPage, setLimitPerPage] = useState(10);
 
   useEffect(() => {
     dispatch(
@@ -55,6 +54,10 @@ function ProjectsPage() {
   const { currentPageProjects, projectsById, totalProjects, status } =
     useSelector((state) => state.projects);
 
+  const projects = currentPageProjects.map(
+    (projectId) => projectsById[projectId]
+  );
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -62,9 +65,7 @@ function ProjectsPage() {
     setLimitPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const projects = currentPageProjects.map(
-    (projectId) => projectsById[projectId]
-  );
+
   const [openCreateNewProjectModal, setOpenCreateNewProjectModal] =
     useState(false);
   const handleOpenCreateNewProjectModal = () => {

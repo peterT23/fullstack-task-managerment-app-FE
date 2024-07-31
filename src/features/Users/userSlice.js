@@ -24,6 +24,7 @@ export const getUsers = createAsyncThunk(
 
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -36,6 +37,7 @@ export const getSingleUser = createAsyncThunk(
 
       return res.data;
     } catch (error) {
+      toast.error(error.message);
       return thunkAPI.rejectWithValue(error);
     }
   }
