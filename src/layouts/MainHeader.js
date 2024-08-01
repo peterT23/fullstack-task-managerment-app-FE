@@ -16,6 +16,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import { capitalCase } from "change-case";
+import { Chip } from "@mui/material";
 
 const MainHeader = ({ handleDrawerToggle }) => {
   const { logout, user } = useAuth();
@@ -105,19 +106,26 @@ const MainHeader = ({ handleDrawerToggle }) => {
           <SearchPopover />
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            <Avatar
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                  opacity: 0.8,
-                },
-              }}
-              {...stringAvatar(
-                user?.name ? capitalCase(user?.name) : "Unknown"
-              )}
-              src={user?.avatarUrl}
-              alt={user?.name}
+            <Chip
+              sx={{ height: "50px" }}
               onClick={handleProfileMenuOpen}
+              avatar={
+                <Avatar
+                  sx={{
+                    "&:hover": {
+                      cursor: "pointer",
+                      opacity: 0.8,
+                    },
+                  }}
+                  {...stringAvatar(
+                    user?.name ? capitalCase(user?.name) : "Unknown"
+                  )}
+                  src={user?.avatarUrl}
+                  alt={user?.name}
+                />
+              }
+              label={`Hello ${user?.name}`}
+              variant="outlined"
             />
           </Box>
         </Toolbar>

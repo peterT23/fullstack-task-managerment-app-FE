@@ -213,7 +213,7 @@ function CommentPage({ taskId }) {
   return (
     <Box>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack direction="column" spacing={3}>
+        <Stack direction="column" spacing={1}>
           <FTextField
             name="comment"
             placeholder="Write comment or report"

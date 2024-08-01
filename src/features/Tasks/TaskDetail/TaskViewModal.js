@@ -27,7 +27,7 @@ function TaskViewModal({ task, open, handleClose }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: { xs: "280px", sm: "600px", lg: "800px" },
+    width: { xs: "280px", sm: "500px", lg: "700px" },
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -58,7 +58,7 @@ function TaskViewModal({ task, open, handleClose }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Stack direction="column" spacing={3}>
+        <Stack direction="column" spacing={1}>
           <Stack direction="row" justifyContent="space-between">
             <Typography id="modal-modal-title" variant="h5" component="h2">
               View Task Detail

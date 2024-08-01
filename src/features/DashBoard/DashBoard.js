@@ -87,7 +87,7 @@ function DashBoard() {
       sx={{ width: { xs: "265px", md: "800px", lg: "1000px", xl: "1200px" } }}
     >
       <Typography variant="h5" fontWeight="bold">
-        Projects
+        DashBoard
       </Typography>
 
       <Grid container spacing={2}>
