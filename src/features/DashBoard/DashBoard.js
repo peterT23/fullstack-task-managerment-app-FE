@@ -1,4 +1,4 @@
-import { Paper, Stack, Typography } from "@mui/material";
+import { Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../Users/userSlice";
@@ -8,6 +8,7 @@ import LoadingScreen from "../../components/LoadingScreen";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import CalendarComponent from "../../components/calendar";
 function DashBoard() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -69,33 +70,48 @@ function DashBoard() {
     return <LoadingScreen />;
   }
   return (
-    <Stack spacing={5}>
+    <Stack
+      spacing={5}
+      sx={{ width: { xs: "265px", md: "800px", lg: "1000px", xl: "1200px" } }}
+    >
       <Typography variant="h5" fontWeight="bold">
         Projects
       </Typography>
-      <Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
-        {displayArrs.map((item) => (
-          <Paper elevation={5} sx={{ p: "10px", m: "5px" }} key={item.name}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{ width: "200px", height: "100px", p: "20px" }}
-            >
-              {item.icon}
 
-              <Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="end"
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <Stack direction="row" justifyContent="space-evenly" flexWrap="wrap">
+            {displayArrs.map((item) => (
+              <Paper
+                elevation={5}
+                sx={{ p: "10px", m: "20px" }}
+                key={item.name}
               >
-                <Typography>{item.name}</Typography>
-                <Typography>{item.value}</Typography>
-              </Stack>
-            </Stack>
-          </Paper>
-        ))}
-      </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{ width: "200px", height: "100px", p: "20px" }}
+                >
+                  {item.icon}
+
+                  <Stack
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="end"
+                  >
+                    <Typography>{item.name}</Typography>
+                    <Typography>{item.value}</Typography>
+                  </Stack>
+                </Stack>
+              </Paper>
+            ))}
+          </Stack>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <CalendarComponent />
+        </Grid>
+      </Grid>
     </Stack>
   );
 }

@@ -1,0 +1,25 @@
+/* CalendarStyles.css */
+.react-calendar {
+  border: 1px solid #49f960;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.react-calendar__tile {
+  background: #f0f0f0;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.react-calendar__tile:hover {
+  background: #c52a2a;
+}
+
+.react-calendar__tile--active {
+  background: #d0d0d0;
+  color: white;
+}
+
+.react-calendar__navigation button {
+  color: #333;
+}
