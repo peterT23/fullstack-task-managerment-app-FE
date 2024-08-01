@@ -26,7 +26,7 @@ function ProjectsPage() {
 
   const filterName = searchParams.get("filterName") || "";
   const [filterStatus, setFilterStatus] = useState("");
-  const [selectedButton, setSelectedButton] = useState("Pending");
+  const [selectedButton, setSelectedButton] = useState("All");
   const [page, setPage] = useState(0);
   const [limitPerPage, setLimitPerPage] = useState(10);
 

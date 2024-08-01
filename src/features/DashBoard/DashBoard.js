@@ -9,7 +9,10 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import CalendarComponent from "../../components/calendar";
+import DashBoardChart from "./DashBoardChart";
+
 function DashBoard() {
+  const COLORS = ["#dce2e3", "#0088FE", "#FFBB28", "#00C49F", "#FF8042"];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsers({ page: 1, limit: 1000 }));
@@ -25,12 +28,16 @@ function DashBoard() {
   const { status: userLoadingStatus, totalUsers } = useSelector(
     (state) => state.users
   );
-  const { status: projectLoadingStatus, totalProjects } = useSelector(
-    (state) => state.projects
-  );
-  const { status: taskLoadingStatus, totalTasks } = useSelector(
-    (state) => state.tasks
-  );
+  const {
+    status: projectLoadingStatus,
+    totalProjects,
+    projectsById,
+  } = useSelector((state) => state.projects);
+  const {
+    status: taskLoadingStatus,
+    totalTasks,
+    tasksById,
+  } = useSelector((state) => state.tasks);
 
   const displayArrs = [
     {
@@ -60,6 +67,11 @@ function DashBoard() {
       ),
       value: `${totalUsers ? totalUsers : 0}`,
     },
+  ];
+
+  const dataArray = [
+    { data: projectsById, title: "Project Status", colors: COLORS },
+    { data: tasksById, title: "Task Status", colors: COLORS },
   ];
 
   if (
@@ -105,6 +117,16 @@ function DashBoard() {
                   </Stack>
                 </Stack>
               </Paper>
+            ))}
+          </Stack>
+          <Stack spacing={2}>
+            {dataArray.map((data, index) => (
+              <DashBoardChart
+                key={index}
+                title={data.title}
+                dataIn={data.data}
+                COLORS={data.colors}
+              />
             ))}
           </Stack>
         </Grid>
