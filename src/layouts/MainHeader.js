@@ -10,11 +10,12 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchPopover from "../components/SearchPopover";
-
+import { stringAvatar } from "../utils/nameToLetterAvatar";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import { capitalCase } from "change-case";
 
 const MainHeader = ({ handleDrawerToggle }) => {
   const { logout, user } = useAuth();
@@ -111,8 +112,11 @@ const MainHeader = ({ handleDrawerToggle }) => {
                   opacity: 0.8,
                 },
               }}
-              src={user.avatarUrl}
-              alt={user.name}
+              {...stringAvatar(
+                user?.name ? capitalCase(user?.name) : "Unknown"
+              )}
+              src={user?.avatarUrl}
+              alt={user?.name}
               onClick={handleProfileMenuOpen}
             />
           </Box>

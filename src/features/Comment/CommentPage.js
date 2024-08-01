@@ -118,79 +118,91 @@ function CommentPage({ taskId }) {
         {comments.map((comment) => (
           <Box key={comment._id}>
             <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
               key={comment._id}
+              direction="row"
+              justifyContent="start"
+              spacing={3}
             >
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="start"
-                spacing={3}
+              <Tooltip
+                title={`${
+                  comment.commentUser.name
+                    ? capitalCase(comment.commentUser.name)
+                    : "Unknown"
+                }- ${comment.commentUser.role}`}
+                key={comment.commentUser._id}
               >
-                <Tooltip
-                  title={`${
+                <Avatar
+                  {...stringAvatar(
                     comment.commentUser.name
                       ? capitalCase(comment.commentUser.name)
                       : "Unknown"
-                  }- ${comment.commentUser.role}`}
-                  key={comment.commentUser._id}
-                >
-                  <Avatar
-                    {...stringAvatar(
-                      comment.commentUser.name
-                        ? capitalCase(comment.commentUser.name)
-                        : "Unknown"
-                    )}
-                    src={comment.commentUser.avatarUrl}
-                  />
-                </Tooltip>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  {capitalCase(comment.commentUser.name)}
-                </Typography>
-                <Stack direction="column">
-                  <Typography variant="subtitle1">
-                    {comment?.content}
-                  </Typography>
-                  {comment?.referenceDocument &&
-                    (comment.documentType === "image" ? (
-                      <a
-                        href={comment.referenceDocument}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img
-                          src={comment.referenceDocument}
-                          alt="attachment"
-                          style={{ maxWidth: "200px", margin: "10px 0 10px 0" }}
-                        />
-                      </a>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<DownloadOutlinedIcon />}
-                        href={comment.referenceDocument}
-                        download
-                        sx={{ mt: 2, fontSize: "13px" }}
-                      >
-                        Download Attachment
-                      </Button>
-                    ))}
-                </Stack>
-              </Stack>
-              {currentUser._id === comment.commentUser._id && (
-                <Stack>
-                  <IconButton
-                    sx={{ color: "red" }}
-                    onClick={() => handleDeleteComment(comment._id)}
+                  )}
+                  src={comment.commentUser.avatarUrl}
+                />
+              </Tooltip>
+
+              <Stack direction="column">
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack
+                    direction="column"
+                    width="100%"
+                    sx={{ bgcolor: "#F2F3F5", borderRadius: "10px", p: "5px" }}
                   >
-                    <DeleteForeverOutlinedIcon />
-                  </IconButton>
+                    <Typography variant="subtitle2" fontWeight="bold">
+                      {comment?.commentUser?.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        wordBreak: "break-word",
+                        whiteSpace: "normal",
+                        overflow: "hidden",
+                        fontSize: "1rem",
+                      }}
+                    >
+                      {comment?.content}
+                    </Typography>
+                  </Stack>
+                  {currentUser._id === comment.commentUser._id && (
+                    <IconButton
+                      sx={{ color: "lightgrey", "&:hover": { color: "red" } }}
+                      onClick={() => handleDeleteComment(comment._id)}
+                    >
+                      <DeleteForeverOutlinedIcon />
+                    </IconButton>
+                  )}
                 </Stack>
-              )}
+                {comment?.referenceDocument &&
+                  (comment.documentType === "image" ? (
+                    <a
+                      href={comment.referenceDocument}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={comment.referenceDocument}
+                        alt="attachment"
+                        style={{
+                          maxWidth: "200px",
+                          margin: "10px 0 10px 0",
+                        }}
+                      />
+                    </a>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<DownloadOutlinedIcon />}
+                      href={comment.referenceDocument}
+                      download
+                      sx={{ mt: 2, fontSize: "13px" }}
+                    >
+                      Download Attachment
+                    </Button>
+                  ))}
+              </Stack>
             </Stack>
+
             <Divider />
           </Box>
         ))}
