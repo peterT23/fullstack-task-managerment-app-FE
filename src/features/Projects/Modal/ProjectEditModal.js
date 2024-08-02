@@ -14,13 +14,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { FormProvider, FSelect, FTextField } from "../../components/form";
+import { FormProvider, FSelect, FTextField } from "../../../components/form";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import FDatePicker from "../../components/form/FDatePicker";
+import FDatePicker from "../../../components/form/FDatePicker";
 import { LoadingButton } from "@mui/lab";
-import { editProject } from "./projectSlice";
-import { fDateCheck } from "../../utils/formatTime";
+import { editProject } from "../projectSlice";
+import { fDateCheck } from "../../../utils/formatTime";
 import RequestQuoteOutlinedIcon from "@mui/icons-material/RequestQuoteOutlined";
 import { capitalCase } from "change-case";
 import { useParams } from "react-router-dom";

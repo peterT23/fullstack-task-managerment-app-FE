@@ -13,19 +13,19 @@ import {
   FormProvider,
   FTextField,
   FDatePicker,
-} from "../../components/form";
+} from "../../../components/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../Users/userSlice";
+import { getUsers } from "../../Users/userSlice";
 import { capitalCase } from "change-case";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { createProject } from "./projectSlice";
-import useAuth from "../../hooks/useAuth";
+import { createProject } from "../projectSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const style = {
   position: "absolute",

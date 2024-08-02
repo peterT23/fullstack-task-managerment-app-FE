@@ -18,7 +18,7 @@ import { getUsers } from "./userSlice";
 import { useSearchParams } from "react-router-dom";
 import SingleUserDisplay from "./SingleUserDisplay";
 import LoadingScreen from "../../components/LoadingScreen";
-import NewMemberCreateModal from "./NewMemberCreateModal";
+import NewMemberCreateModal from "./Modal/NewMemberCreateModal";
 
 function UsersPage() {
   const dispatch = useDispatch();

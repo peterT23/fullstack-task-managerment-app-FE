@@ -14,10 +14,11 @@ import React, { useEffect, useState } from "react";
 import LoadingScreen from "../../components/LoadingScreen";
 import useAuth from "../../hooks/useAuth";
 import AddIcon from "@mui/icons-material/Add";
-import NewProjectCreateModal from "./NewProjectCreateModal";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "./projectSlice";
 import ProjectDisplayCard from "./ProjectDisplayCard";
+import NewProjectCreateModal from "./Modal/NewProjectCreateModal";
 
 function ProjectsPage() {
   const { user } = useAuth();

@@ -228,10 +228,10 @@ function TaskContainer() {
         textAlign: "center",
         overflowX: "auto",
         width: {
-          xs: "310px",
+          xs: "300px",
           sm: "550px",
           md: "780px",
-          lg: "1000px",
+          lg: "1150px",
           xl: "1500px",
         },
       }}
@@ -248,7 +248,7 @@ function TaskContainer() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            width: "1600px",
+            width: "1700px",
           }}
         >
           {Object.keys(tasksByStatus).map((containerId) => (

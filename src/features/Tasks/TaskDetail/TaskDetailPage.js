@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTasksByStatus } from "../taskSlice";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import useAuth from "../../../hooks/useAuth";
-import NewTaskCreateModal from "./NewTaskCreateModal";
+import NewTaskCreateModal from "./Modal/NewTaskCreateModal";
 import TaskContainerrrrr from "./TaskContainerrrrr";
 
 function TaskDetailPage() {

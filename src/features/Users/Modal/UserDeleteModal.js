@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteSingleUser } from "./userSlice";
+import { deleteSingleUser } from "../../Users/userSlice";
 
 const style = {
   position: "absolute",

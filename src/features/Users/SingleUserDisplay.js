@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { capitalCase } from "change-case";
 
 import SingleDetailUserDisplay from "./SingleDetailUserDisplay";
-import UserDeleteModal from "./UserDeleteModal";
+import UserDeleteModal from "./../Users/Modal/UserDeleteModal";
 import useAuth from "../../hooks/useAuth";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";

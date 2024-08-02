@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 
-import { fDate } from "../../../utils/formatTime";
-import { stringAvatar } from "../../../utils/nameToLetterAvatar";
+import { fDate } from "../../../../utils/formatTime";
+import { stringAvatar } from "../../../../utils/nameToLetterAvatar";
 import { capitalCase } from "change-case";
-import CommentPage from "../../Comment/CommentPage";
-import AttachedFileDisplay from "../../Comment/AttachedFileDisplay";
+import CommentPage from "../../../Comment/CommentPage";
+import AttachedFileDisplay from "../../../Comment/AttachedFileDisplay";
 
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ShareIcon from "@mui/icons-material/Share";

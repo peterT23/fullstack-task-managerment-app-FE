@@ -53,8 +53,8 @@
 import { Box, Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { unassignMemberFromProject } from "./projectSlice";
-import LoadingScreen from "../../components/LoadingScreen";
+import { unassignMemberFromProject } from "../projectSlice";
+import LoadingScreen from "../../../components/LoadingScreen";
 
 const style = {
   position: "absolute",

@@ -8,18 +8,18 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { FFillAndSelect, FormProvider } from "../../components/form";
+import { FFillAndSelect, FormProvider } from "../../../components/form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../Users/userSlice";
+import { getUsers } from "../../Users/userSlice";
 import { capitalCase } from "change-case";
 import { LoadingButton } from "@mui/lab";
-import { assignProjectToMembers } from "./projectSlice";
-import LoadingScreen from "../../components/LoadingScreen";
+import { assignProjectToMembers } from "../projectSlice";
+import LoadingScreen from "../../../components/LoadingScreen";
 
 const style = {
   position: "absolute",

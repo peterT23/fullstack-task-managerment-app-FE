@@ -14,9 +14,9 @@ import DeleteSweepOutlinedIcon from "@mui/icons-material/DeleteSweepOutlined";
 import { fDate } from "../../utils/formatTime";
 import { capitalCase } from "change-case";
 import useAuth from "../../hooks/useAuth";
-import ProjectEditModal from "./ProjectEditModal";
+import ProjectEditModal from "./Modal/ProjectEditModal";
 import { useSelector } from "react-redux";
-import ProjectDeleteModal from "./ProjectDeleteModal";
+import ProjectDeleteModal from "./Modal/ProjectDeleteModal";
 
 const getStatusStyles = (status) => {
   switch (status) {
@@ -93,20 +93,19 @@ function ProjectDetailPageNameCard() {
       sx={{
         backgroundColor: theme.palette.primary.main,
         color: "white",
-        p: "12px",
+        p: "10px",
       }}
     >
       <Stack direction="column" justifyContent="center" alignItems="center">
+        <Typography variant="h5">{currentProject.title}</Typography>
         <Stack
           direction="row"
-          spacing={5}
+          spacing={3}
           flexWrap="wrap"
           justifyContent="space-evenly"
           alignItems="center"
           sx={{ width: { xs: 260, sm: "100%" } }}
         >
-          <Typography variant="h5">{currentProject.title}</Typography>
-
           <Stack direction="row" justifyContent="space-between">
             <Stack
               sx={{

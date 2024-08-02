@@ -1,13 +1,3 @@
-import React from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-
-import { useForm } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
-import { useDispatch, useSelector } from "react-redux";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   Alert,
   Box,
@@ -17,16 +7,31 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import React, { useEffect } from "react";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+
+import { useForm } from "react-hook-form";
+
+import { LoadingButton } from "@mui/lab";
+import { useDispatch, useSelector } from "react-redux";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
 import {
-  FDatePicker,
   FFillAndSelect,
   FormProvider,
   FSelect,
   FTextField,
-} from "../../../components/form";
+  FDatePicker,
+} from "../../../../components/form";
+
+import { createTaskAsync } from "../../taskSlice";
 import { capitalCase } from "change-case";
-import { fDateCheck } from "../../../utils/formatTime";
-import { editTaskAsync } from "../taskSlice";
+import { useParams } from "react-router-dom";
+import { getSingleProject } from "../../../Projects/projectSlice";
 
 const style = {
   position: "absolute",
@@ -40,7 +45,6 @@ const style = {
   p: 2,
   borderRadius: 2,
 };
-
 const TaskSchema = Yup.object().shape({
   title: Yup.string().required("Name is required"),
   description: Yup.string().optional(),
@@ -49,31 +53,27 @@ const TaskSchema = Yup.object().shape({
   assignees: Yup.array().of(Yup.string().required("Assignee ID is required")),
   priority: Yup.string().oneOf(["low", "medium", "high"]),
 });
-
-function TaskEditModal({ task, open, handleClose }) {
-  const defaultValues = {
-    title: task?.title || "",
-    description: task?.description || "",
-    dueDate: task?.dueDate ? fDateCheck(task.dueDate) : null,
-    startDate: task?.startDate ? fDateCheck(task.startDate) : null,
-    assignees: task?.assignees
-      ? task.assignees.map((assignee) => assignee._id)
-      : [],
-    priority: task?.priority || "pending",
-  };
-
+const defaultValues = {
+  title: "",
+  description: "",
+  dueDate: null,
+  startDate: null,
+  assignees: [],
+  priority: "low",
+};
+function NewTaskCreateModal({ open, handleClose }) {
+  const params = useParams();
+  const { projectId } = params;
+  const dispatch = useDispatch();
   const methods = useForm({
     resolver: yupResolver(TaskSchema),
     defaultValues,
   });
+  useEffect(() => {
+    dispatch(getSingleProject({ projectId }));
+  }, [dispatch, projectId]);
 
-  const dispatch = useDispatch();
   const { selectedProject } = useSelector((state) => state.projects);
-
-  const options = selectedProject?.assignees.map((assignee) => ({
-    value: assignee._id,
-    label: `${capitalCase(assignee?.name)}-${assignee.email}`,
-  }));
 
   const {
     handleSubmit,
@@ -81,6 +81,13 @@ function TaskEditModal({ task, open, handleClose }) {
     setError,
     formState: { errors, isSubmitting },
   } = methods;
+
+  //remove the current manager
+
+  const options = selectedProject?.assignees.map((assignee) => ({
+    value: assignee._id,
+    label: `${capitalCase(assignee?.name)}-${assignee.email}`,
+  }));
 
   const onSubmit = async (data) => {
     let { title, description, dueDate, startDate, assignees, priority } = data;
@@ -92,14 +99,14 @@ function TaskEditModal({ task, open, handleClose }) {
       handleClose();
 
       await dispatch(
-        editTaskAsync({
+        createTaskAsync({
           title,
           description,
           dueDate,
           assignees,
           priority,
           startDate,
-          taskId: task._id,
+          projectId,
         })
       );
     } catch (error) {
@@ -118,7 +125,7 @@ function TaskEditModal({ task, open, handleClose }) {
       <Container maxWidth="sm">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit Task
+            Create New Task
           </Typography>
 
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -158,12 +165,13 @@ function TaskEditModal({ task, open, handleClose }) {
               )}
 
               <LoadingButton
+                fullWidth="true"
                 size="large"
                 type="submit"
                 variant="contained"
                 loading={isSubmitting}
               >
-                Update Task
+                Create Task
               </LoadingButton>
               <Button onClick={handleClose}>Cancel</Button>
             </Stack>
@@ -174,4 +182,4 @@ function TaskEditModal({ task, open, handleClose }) {
   );
 }
 
-export default TaskEditModal;
+export default NewTaskCreateModal;

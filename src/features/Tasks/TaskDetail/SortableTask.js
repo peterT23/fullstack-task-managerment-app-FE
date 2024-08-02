@@ -21,10 +21,10 @@ import { capitalCase } from "change-case";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import TaskDeleteModal from "./TaskDeleteModal";
+import TaskDeleteModal from "./Modal/TaskDeleteModal";
 import useAuth from "../../../hooks/useAuth";
-import TaskViewModal from "./TaskViewModal";
-import TaskEditModal from "./TaskEditModal";
+import TaskViewModal from "./Modal/TaskViewModal";
+import TaskEditModal from "./Modal/TaskEditModal";
 import { useDispatch } from "react-redux";
 import { getSingleTask } from "../taskSlice";
 

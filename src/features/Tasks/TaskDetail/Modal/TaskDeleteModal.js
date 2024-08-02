@@ -1,7 +1,10 @@
 import { Box, Button, Divider, Modal, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteAsyncSingleTask, deleteSingleTask } from "../taskSlice";
+import {
+  deleteAsyncSingleTask,
+  deleteSingleTask,
+} from "../../../Tasks/taskSlice";
 
 function TaskDeleteModal({ handleClose, open, taskId }) {
   const dispatch = useDispatch();

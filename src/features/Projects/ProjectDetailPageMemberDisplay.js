@@ -12,13 +12,14 @@ import React, { useState } from "react";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
 import { capitalCase } from "change-case";
-import AssignProJectModal from "./AssignProJectModal";
+
 import { useSelector } from "react-redux";
-import UnassignMemberModal from "./UnassignMemberModal";
+import UnassignMemberModal from "./Modal/UnassignMemberModal";
 import LoadingScreen from "../../components/LoadingScreen";
 import useAuth from "../../hooks/useAuth";
 
 import { stringAvatar } from "../../utils/nameToLetterAvatar";
+import AssignProJectModal from "./Modal/AssignProJectModal";
 
 function ProjectDetailPageMemberDisplay() {
   const { selectedProject: currentProject, status } = useSelector(

@@ -9,10 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { FTextField } from "../../components/form";
+import { FTextField } from "../../../components/form";
 
 import { useForm } from "react-hook-form";
-import { FormProvider } from "../../components/form";
+import { FormProvider } from "../../../components/form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -20,7 +20,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import * as Yup from "yup";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch } from "react-redux";
-import { createMemberAccount } from "./userSlice";
+import { createMemberAccount } from "../../Users/userSlice";
 const style = {
   position: "absolute",
   top: "50%",

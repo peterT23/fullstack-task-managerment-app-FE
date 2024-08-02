@@ -28,7 +28,7 @@ import { capitalCase } from "change-case";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasksAsync } from "./taskSlice";
 import useAuth from "../../hooks/useAuth";
-import TaskDeleteModal from "./TaskDetail/TaskDeleteModal";
+import TaskDeleteModal from "./TaskDetail/Modal/TaskDeleteModal";
 
 const getStatusStyles = (status) => {
   switch (status) {
