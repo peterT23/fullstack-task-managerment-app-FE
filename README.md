@@ -343,4 +343,4 @@ After joining, users can manage their profiles, view and manage tasks, receive n
  * /
 ```
 ![taskme ERD image](https://github.com/peterT23/fullstack-task-managerment-app-FE/blob/main/task_me_ERD.png)
-linkDemo : https://taskme-fe.netlify.app
+linkDemo : [https://taskme-fe.netlify.app](https://taskme-fullstack.netlify.app/)
