@@ -342,5 +342,12 @@ After joining, users can manage their profiles, view and manage tasks, receive n
  * @access Login required
  * /
 ```
+
 ![taskme ERD image](https://github.com/peterT23/fullstack-task-managerment-app-FE/blob/main/task_me_ERD.png)
+![task me Image](![Screenshot 2024-08-12 at 22 11 27](https://github.com/user-attachments/assets/410725d5-e7e0-4c20-b3a7-5b77ae56b107)
+)
+![task me Image](![Screenshot 2024-08-12 at 22 12 14](https://github.com/user-attachments/assets/0e28d4e0-ef20-4851-8f30-c670ab533f4a)
+)
+)
 linkDemo : [https://taskme-fe.netlify.app](https://taskme-fullstack.netlify.app/)
+I am using render.com to upload my free Back-end server so it takes time to load everything on screen. please wait for it!
