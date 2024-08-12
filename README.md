@@ -344,14 +344,18 @@ After joining, users can manage their profiles, view and manage tasks, receive n
 ```
 
 ![taskme ERD image](https://github.com/peterT23/fullstack-task-managerment-app-FE/blob/main/task_me_ERD.png)
-![Screenshot 2024-08-12 at 22 11 27](https://github.com/user-attachments/assets/410725d5-e7e0-4c20-b3a7-5b77ae56b107)
+![Screenshot 2024-08-12 at 22 31 55 (2)](https://github.com/user-attachments/assets/945d9426-c92c-4a92-b9b9-ad4597016e34)
+<img width="1440" alt="Screenshot 2024-08-12 at 22 31 55" src="https://github.com/user-attachments/assets/c0b6ced8-09ae-4e8f-aeb7-12455caa01a2">
+![Screenshot 2024-08-12 at 22 31 45 (2)](https://github.com/user-attachments/assets/3c7f3fea-426b-4446-848c-8b22cd66000c)
+<img width="1440" alt="Screenshot 2024-08-12 at 22 31 45" src="https://github.com/user-attachments/assets/06f79b07-67b8-4548-9401-99dfb8993479">
+![Screenshot 2024-08-12 at 22 31 36 (2)](https://github.com/user-attachments/assets/ec81e45f-47fd-4ec3-baeb-f313fce1fbe2)
+<img width="1440" alt="Screenshot 2024-08-12 at 22 31 36" src="https://github.com/user-attachments/assets/cc140eea-0bc6-4aaa-8ff0-f3b4446a3656">
+![Screenshot 2024-08-12 at 22 31 23 (2)](https://github.com/user-attachments/assets/c15785f2-2a07-4f5b-95e2-20c436dbf68e)
+<img width="1440" alt="Screenshot 2024-08-12 at 22 31 23" src="https://github.com/user-attachments/assets/e222869e-a8f7-445f-b4c1-f56eae3d7d2f">
+![Screenshot 2024-08-12 at 22 31 14 (2)](https://github.com/user-attachments/assets/470bef8e-1fb6-4e80-99f2-572056d103aa)
+<img width="1440" alt="Screenshot 2024-08-12 at 22 31 14" src="https://github.com/user-attachments/assets/a57f9cf5-32cd-4e58-ba38-d96f074fdab5">
 
-![Screenshot 2024-08-12 at 22 12 14](https://github.com/user-attachments/assets/0e28d4e0-ef20-4851-8f30-c670ab533f4a)
-![Screenshot 2024-08-12 at 22 13 47](https://github.com/user-attachments/assets/da4b5638-719d-48b3-b0e7-dedad6fec742)
-![Screenshot 2024-08-12 at 22 14 18](https://github.com/user-attachments/assets/8dbfcc78-cd64-452f-ba40-eef1d18c49dd)
-![Screenshot 2024-08-12 at 22 14 39](https://github.com/user-attachments/assets/076b5761-6f59-43ec-9339-9dc4eb9f4b11)
-![Screenshot 2024-08-12 at 22 15 00](https://github.com/user-attachments/assets/87f5ed26-f139-4595-bfb8-eef9b034bdd9)
-![Screenshot 2024-08-12 at 22 15 21](https://github.com/user-attachments/assets/e0a5ddb3-0658-4e29-807d-2a69b2cba631)
+
 
 
 linkDemo : [https://taskme-fe.netlify.app](https://taskme-fullstack.netlify.app/)
