@@ -342,18 +342,37 @@ After joining, users can manage their profiles, view and manage tasks, receive n
  * @access Login required
  * /
 ```
-
+## TASK ME ERD diagram
 ![taskme ERD image](https://github.com/peterT23/fullstack-task-managerment-app-FE/blob/main/task_me_ERD.png)
-![Screenshot 2024-08-12 at 22 31 55 (2)](https://github.com/user-attachments/assets/945d9426-c92c-4a92-b9b9-ad4597016e34)
-<img width="1440" alt="Screenshot 2024-08-12 at 22 31 55" src="https://github.com/user-attachments/assets/c0b6ced8-09ae-4e8f-aeb7-12455caa01a2">
-![Screenshot 2024-08-12 at 22 31 45 (2)](https://github.com/user-attachments/assets/3c7f3fea-426b-4446-848c-8b22cd66000c)
-<img width="1440" alt="Screenshot 2024-08-12 at 22 31 45" src="https://github.com/user-attachments/assets/06f79b07-67b8-4548-9401-99dfb8993479">
-![Screenshot 2024-08-12 at 22 31 36 (2)](https://github.com/user-attachments/assets/ec81e45f-47fd-4ec3-baeb-f313fce1fbe2)
-<img width="1440" alt="Screenshot 2024-08-12 at 22 31 36" src="https://github.com/user-attachments/assets/cc140eea-0bc6-4aaa-8ff0-f3b4446a3656">
-![Screenshot 2024-08-12 at 22 31 23 (2)](https://github.com/user-attachments/assets/c15785f2-2a07-4f5b-95e2-20c436dbf68e)
-<img width="1440" alt="Screenshot 2024-08-12 at 22 31 23" src="https://github.com/user-attachments/assets/e222869e-a8f7-445f-b4c1-f56eae3d7d2f">
-![Screenshot 2024-08-12 at 22 31 14 (2)](https://github.com/user-attachments/assets/470bef8e-1fb6-4e80-99f2-572056d103aa)
-<img width="1440" alt="Screenshot 2024-08-12 at 22 31 14" src="https://github.com/user-attachments/assets/a57f9cf5-32cd-4e58-ba38-d96f074fdab5">
+
+## Image of Project
+<img width="1440" alt="Screenshot 2024-08-12 at 22 37 17" src="https://github.com/user-attachments/assets/21a938c1-f850-42a1-9a0e-8de503218a73">
+<img width="1440" alt="Screenshot 2024-08-12 at 22 37 11" src="https://github.com/user-attachments/assets/4d2e27db-a746-4f45-961e-b9e669cbfab0">
+<img width="1440" alt="Screenshot 2024-08-12 at 22 37 02" src="https://github.com/user-attachments/assets/71a2c538-1eeb-4ff8-aa28-6ace428dc600">
+<img width="1440" alt="Screenshot 2024-08-12 at 22 36 54" src="https://github.com/user-attachments/assets/723894a1-0c65-4b46-801a-0bb412a9a004">
+<img width="1440" alt="Screenshot 2024-08-12 at 22 36 47" src="https://github.com/user-attachments/assets/3ececd1f-dd9a-4026-a956-d8873f1afbab">
+<img width="1440" alt="Screenshot 2024-08-12 at 22 36 37" src="https://github.com/user-attachments/assets/dfa563c4-6def-480c-8145-44fcb8cdc94e">
+
+## Tech stacks
+
+## Tech Stack
+
+### Frontend
+- ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) **ReactJS**: A JavaScript library for building user interfaces.
+- ![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white) **React Hook Form**: For handling form inputs with minimal re-renders.
+- ![React Router](https://img.shields.io/badge/React%20Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white) **React Router DOM**: For routing and navigation between views.
+- ![Yup](https://img.shields.io/badge/Yup-ffac45?style=for-the-badge) **Yup Validator**: For schema validation and form data validation.
+- ![Redux](https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white) **Redux Toolkit**: For efficient state management.
+- ![DnD Kit](https://img.shields.io/badge/DnD%20Kit-4B0082?style=for-the-badge&logo=html5&logoColor=white) **DnD Kit**: For drag-and-drop functionality.
+- ![Material-UI](https://img.shields.io/badge/Material%20UI-0081CB?style=for-the-badge&logo=mui&logoColor=white) **Material-UI**: For sleek, responsive UI components.
+
+### Backend
+- ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node-dot-js&logoColor=white) **Node.js**: For running JavaScript on the server.
+- ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge) **Express.js**: A web application framework for Node.js.
+- ![Express Validator](https://img.shields.io/badge/Express%20Validator-ff6347?style=for-the-badge) **Express Validator**: For validating and sanitizing form data.
+- ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white) **MongoDB**: A NoSQL database for storing application data.
+
+These technologies together provide a robust foundation for building a fully-featured task management application.
 
 
 
